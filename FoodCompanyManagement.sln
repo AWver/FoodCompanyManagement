@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodCompanyManagement.Server", "FoodCompanyManagement\Server\FoodCompanyManagement.Server.csproj", "{61F781F0-4003-4AF3-B795-C29A753080A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodCompanyManagement.Server", "FoodCompanyManagement\Server\FoodCompanyManagement.Server.csproj", "{61F781F0-4003-4AF3-B795-C29A753080A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodCompanyManagement.Client", "FoodCompanyManagement\Client\FoodCompanyManagement.Client.csproj", "{F5053B0C-19F2-4D68-A044-B18BEDDFF991}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodCompanyManagement.Client", "FoodCompanyManagement\Client\FoodCompanyManagement.Client.csproj", "{F5053B0C-19F2-4D68-A044-B18BEDDFF991}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodCompanyManagement.Shared", "FoodCompanyManagement\Shared\FoodCompanyManagement.Shared.csproj", "{A03FE10F-9CA8-44BB-9AC1-AB59145924A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodCompanyManagement.Shared", "FoodCompanyManagement\Shared\FoodCompanyManagement.Shared.csproj", "{A03FE10F-9CA8-44BB-9AC1-AB59145924A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
