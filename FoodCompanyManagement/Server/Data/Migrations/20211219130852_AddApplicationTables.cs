@@ -7,6 +7,18 @@ namespace FoodCompanyManagement.Server.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<string>(
+                name: "FirstName",
+                table: "AspNetUsers",
+                type: "nvarchar(max)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "LastName",
+                table: "AspNetUsers",
+                type: "nvarchar(max)",
+                nullable: true);
+
             migrationBuilder.CreateTable(
                 name: "DietPlans",
                 columns: table => new
@@ -45,7 +57,7 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DietStart = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DietEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DietID = table.Column<int>(type: "int", nullable: false),
+                    Diet_Id = table.Column<int>(type: "int", nullable: false),
                     DietPlanId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -68,7 +80,7 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                     MealDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MealPhoto = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MealDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserDietID = table.Column<int>(type: "int", nullable: false),
+                    UserDiet_Id = table.Column<int>(type: "int", nullable: false),
                     User_DietPlanId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -92,9 +104,9 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isStaff = table.Column<bool>(type: "bit", nullable: false),
                     MembershipStatus = table.Column<bool>(type: "bit", nullable: false),
-                    UserDietID = table.Column<int>(type: "int", nullable: false),
+                    UserDiet_Id = table.Column<int>(type: "int", nullable: false),
                     User_DietPlanId = table.Column<int>(type: "int", nullable: true),
-                    ProfileID = table.Column<int>(type: "int", nullable: false),
+                    Profile_Id = table.Column<int>(type: "int", nullable: false),
                     ProfileDataId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -123,17 +135,18 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                     IsMembership = table.Column<bool>(type: "bit", nullable: false),
                     TopicDesc = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TopicName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserID = table.Column<int>(type: "int", nullable: false)
+                    User_Id = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Topics", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Topics_User_UserID",
-                        column: x => x.UserID,
+                        name: "FK_Topics_User_UserId",
+                        column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -144,24 +157,26 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Poster = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PostDesc = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserID = table.Column<int>(type: "int", nullable: false),
-                    TopicID = table.Column<int>(type: "int", nullable: false)
+                    Users_Id = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true),
+                    Topic_Id = table.Column<int>(type: "int", nullable: false),
+                    TopicId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Posts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Posts_Topics_TopicID",
-                        column: x => x.TopicID,
+                        name: "FK_Posts_Topics_TopicId",
+                        column: x => x.TopicId,
                         principalTable: "Topics",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Posts_User_UserID",
-                        column: x => x.UserID,
+                        name: "FK_Posts_User_UserId",
+                        column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -170,19 +185,19 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                 column: "User_DietPlanId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_TopicID",
+                name: "IX_Posts_TopicId",
                 table: "Posts",
-                column: "TopicID");
+                column: "TopicId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_UserID",
+                name: "IX_Posts_UserId",
                 table: "Posts",
-                column: "UserID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Topics_UserID",
+                name: "IX_Topics_UserId",
                 table: "Topics",
-                column: "UserID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_ProfileDataId",
@@ -222,6 +237,14 @@ namespace FoodCompanyManagement.Server.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "DietPlans");
+
+            migrationBuilder.DropColumn(
+                name: "FirstName",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "LastName",
+                table: "AspNetUsers");
         }
     }
 }

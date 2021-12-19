@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodCompanyManagement.Server.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211219112053_AddApplicationTables")]
+    [Migration("20211219130852_AddApplicationTables")]
     partial class AddApplicationTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,6 +39,12 @@ namespace FoodCompanyManagement.Server.Data.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -102,7 +108,7 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                     b.Property<string>("MealPhoto")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserDietID")
+                    b.Property<int>("UserDiet_Id")
                         .HasColumnType("int");
 
                     b.Property<int?>("User_DietPlanId")
@@ -149,17 +155,23 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                     b.Property<string>("Poster")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TopicID")
+                    b.Property<int?>("TopicId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserID")
+                    b.Property<int>("Topic_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Users_Id")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TopicID");
+                    b.HasIndex("TopicId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Posts");
                 });
@@ -201,12 +213,15 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                     b.Property<string>("TopicName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserID")
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("User_Id")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Topics");
                 });
@@ -227,10 +242,10 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                     b.Property<int?>("ProfileDataId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProfileID")
+                    b.Property<int>("Profile_Id")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserDietID")
+                    b.Property<int>("UserDiet_Id")
                         .HasColumnType("int");
 
                     b.Property<string>("UserName")
@@ -261,14 +276,14 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                     b.Property<DateTime>("DietEnd")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DietID")
-                        .HasColumnType("int");
-
                     b.Property<int?>("DietPlanId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DietStart")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Diet_Id")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -528,15 +543,11 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                 {
                     b.HasOne("FoodCompanyManagement.Shared.Domain.Topic", "Topic")
                         .WithMany()
-                        .HasForeignKey("TopicID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TopicId");
 
                     b.HasOne("FoodCompanyManagement.Shared.Domain.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Topic");
 
@@ -547,9 +558,7 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                 {
                     b.HasOne("FoodCompanyManagement.Shared.Domain.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });

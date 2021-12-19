@@ -12,7 +12,7 @@ namespace FoodCompanyManagement.Shared.Domain
 		public string MealDescription { get; set; }
 		public string MealPhoto { get; set; }
 		public DateTime MealDate { get; set; }
-		public int UserDietID { get; set; }
+		public int UserDiet_Id { get; set; }
 		public virtual User_DietPlan User_DietPlan { get; set; }
 
 

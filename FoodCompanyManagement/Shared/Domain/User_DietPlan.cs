@@ -11,7 +11,7 @@ namespace FoodCompanyManagement.Shared.Domain
 	{
 		public DateTime DietStart { get; set; }
 		public DateTime DietEnd { get; set; }
-		public int DietID { get; set; }
+		public int Diet_Id { get; set; }
 		public virtual DietPlan DietPlan { get; set; }
 
 

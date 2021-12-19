@@ -13,9 +13,9 @@ namespace FoodCompanyManagement.Shared.Domain
 		public string Password { get; set; }
 		public bool isStaff { get; set; }
 		public bool MembershipStatus { get; set; }
-		public int UserDietID { get; set; }
+		public int UserDiet_Id { get; set; }
 		public virtual User_DietPlan User_DietPlan { get; set; }
-		public int ProfileID { get; set; }
+		public int Profile_Id { get; set; }
 		public virtual ProfileData ProfileData { get; set; }
 
 
