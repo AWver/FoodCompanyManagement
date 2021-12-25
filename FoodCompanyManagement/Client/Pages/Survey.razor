@@ -1,4 +1,9 @@
 ﻿@page "/survey"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using FoodCompanyManagement.Shared
+@attribute [Authorize]
+@inject HttpClient Http
 
 <!DOCTYPE html>
 <html>
