@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using FoodCompanyManagement.Shared.Domain;
+using FoodCompanyManagement.Server.Configurations.Entities;
 
 namespace FoodCompanyManagement.Server.Data
 {
@@ -25,5 +26,12 @@ namespace FoodCompanyManagement.Server.Data
 		public DbSet<Topic> Topics { get; set; }
 		public DbSet<User> User { get; set; }
 		public DbSet<User_DietPlan> User_DietPlans { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder builder)
+		{
+			base.OnModelCreating(builder);
+
+			builder.ApplyConfiguration(new DietPlanSeedConfiguration());
+		}
 	}
 }

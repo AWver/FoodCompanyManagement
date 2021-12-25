@@ -8,17 +8,17 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FoodCompanyManagement.Server.Configurations.Entities
 {
-	public class DietPlanSeedConfiguration : IEntityTypeConfiguration<DietPlan>
+	public class User_DietPlanSeedConfiguration : IEntityTypeConfiguration<User_DietPlan>
 	{
-		public void Configure(EntityTypeBuilder<DietPlan> builder)
+		public void Configure(EntityTypeBuilder<User_DietPlan> builder)
 		{
 			builder.HasData(
-			new DietPlan
+			new User_DietPlan
 			{
 				Id = 1,
-				DietCategory = "Pescatarian",
-				DietWeek = 1,
-				DietReccFoods = "Salmon, Sea bass"
+				DietStart = DateTime.Today,
+				DietEnd = DateTime.Today,
+				Diet_Id = 1
 			}
 			);
 		}

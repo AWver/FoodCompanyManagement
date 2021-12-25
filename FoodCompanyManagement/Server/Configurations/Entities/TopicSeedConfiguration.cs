@@ -8,17 +8,18 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FoodCompanyManagement.Server.Configurations.Entities
 {
-	public class DietPlanSeedConfiguration : IEntityTypeConfiguration<DietPlan>
+	public class TopicSeedConfiguration : IEntityTypeConfiguration<Topic>
 	{
-		public void Configure(EntityTypeBuilder<DietPlan> builder)
+		public void Configure(EntityTypeBuilder<Topic> builder)
 		{
 			builder.HasData(
-			new DietPlan
+			new Topic
 			{
 				Id = 1,
-				DietCategory = "Pescatarian",
-				DietWeek = 1,
-				DietReccFoods = "Salmon, Sea bass"
+				IsMembership = true,
+				TopicDesc = "Does Whey Protein have any side effects on health?",
+				TopicName = "Whey Protein",
+				User_Id = 1
 			}
 			);
 		}
