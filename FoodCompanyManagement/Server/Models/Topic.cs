@@ -4,9 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FoodCompanyManagement.Ser
 
-namespace FoodCompanyManagement.Shared.Domain
+namespace FoodCompanyManagement.Server.Models
 {
 	public class Topic : BaseDomainModel
 	{
@@ -16,6 +15,6 @@ namespace FoodCompanyManagement.Shared.Domain
 		public int User_Id { get; set; }
 		public virtual User User { get; set; }
 
-
+		public virtual ApplicationUser appUser { get; set; }
 	}
 }
