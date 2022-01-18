@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FoodCompanyManagement.Server.Models;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using FoodCompanyManagement.Shared.Domain;
+using FoodCompanyManagement.Server.Models;
 using FoodCompanyManagement.Server.Configurations.Entities;
 
 namespace FoodCompanyManagement.Server.Data

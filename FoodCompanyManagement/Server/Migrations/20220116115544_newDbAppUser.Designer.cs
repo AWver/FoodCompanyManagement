@@ -4,14 +4,16 @@ using FoodCompanyManagement.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace FoodCompanyManagement.Server.Data.Migrations
+namespace FoodCompanyManagement.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220116115544_newDbAppUser")]
+    partial class newDbAppUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,9 +75,15 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<int>("User_ID")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -87,10 +95,12 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.DailyMeal", b =>
+            modelBuilder.Entity("FoodCompanyManagement.Server.Models.DailyMeal", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -119,7 +129,7 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                     b.ToTable("DailyMeals");
                 });
 
-            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.DietPlan", b =>
+            modelBuilder.Entity("FoodCompanyManagement.Server.Models.DietPlan", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -138,9 +148,18 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DietPlans");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DietCategory = "Pescatarian",
+                            DietReccFoods = "Salmon, Sea bass",
+                            DietWeek = 1
+                        });
                 });
 
-            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.Post", b =>
+            modelBuilder.Entity("FoodCompanyManagement.Server.Models.Post", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -174,7 +193,7 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.ProfileData", b =>
+            modelBuilder.Entity("FoodCompanyManagement.Server.Models.ProfileData", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -195,12 +214,15 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                     b.ToTable("ProfileDatas");
                 });
 
-            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.Topic", b =>
+            modelBuilder.Entity("FoodCompanyManagement.Server.Models.Topic", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsMembership")
                         .HasColumnType("bit");
@@ -219,12 +241,14 @@ namespace FoodCompanyManagement.Server.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ApplicationUserId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Topics");
                 });
 
-            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.User", b =>
+            modelBuilder.Entity("FoodCompanyManagement.Server.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -264,7 +288,7 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.User_DietPlan", b =>
+            modelBuilder.Entity("FoodCompanyManagement.Server.Models.User_DietPlan", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -528,22 +552,31 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.DailyMeal", b =>
+            modelBuilder.Entity("FoodCompanyManagement.Server.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("FoodCompanyManagement.Shared.Domain.User_DietPlan", "User_DietPlan")
+                    b.HasOne("FoodCompanyManagement.Server.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FoodCompanyManagement.Server.Models.DailyMeal", b =>
+                {
+                    b.HasOne("FoodCompanyManagement.Server.Models.User_DietPlan", "User_DietPlan")
                         .WithMany()
                         .HasForeignKey("User_DietPlanId");
 
                     b.Navigation("User_DietPlan");
                 });
 
-            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.Post", b =>
+            modelBuilder.Entity("FoodCompanyManagement.Server.Models.Post", b =>
                 {
-                    b.HasOne("FoodCompanyManagement.Shared.Domain.Topic", "Topic")
+                    b.HasOne("FoodCompanyManagement.Server.Models.Topic", "Topic")
                         .WithMany()
                         .HasForeignKey("TopicId");
 
-                    b.HasOne("FoodCompanyManagement.Shared.Domain.User", "User")
+                    b.HasOne("FoodCompanyManagement.Server.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
@@ -552,22 +585,26 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.Topic", b =>
+            modelBuilder.Entity("FoodCompanyManagement.Server.Models.Topic", b =>
                 {
-                    b.HasOne("FoodCompanyManagement.Shared.Domain.User", "User")
+                    b.HasOne("FoodCompanyManagement.Server.Models.ApplicationUser", null)
+                        .WithMany("Topics")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("FoodCompanyManagement.Server.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.User", b =>
+            modelBuilder.Entity("FoodCompanyManagement.Server.Models.User", b =>
                 {
-                    b.HasOne("FoodCompanyManagement.Shared.Domain.ProfileData", "ProfileData")
+                    b.HasOne("FoodCompanyManagement.Server.Models.ProfileData", "ProfileData")
                         .WithMany()
                         .HasForeignKey("ProfileDataId");
 
-                    b.HasOne("FoodCompanyManagement.Shared.Domain.User_DietPlan", "User_DietPlan")
+                    b.HasOne("FoodCompanyManagement.Server.Models.User_DietPlan", "User_DietPlan")
                         .WithMany()
                         .HasForeignKey("User_DietPlanId");
 
@@ -576,9 +613,9 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                     b.Navigation("User_DietPlan");
                 });
 
-            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.User_DietPlan", b =>
+            modelBuilder.Entity("FoodCompanyManagement.Server.Models.User_DietPlan", b =>
                 {
-                    b.HasOne("FoodCompanyManagement.Shared.Domain.DietPlan", "DietPlan")
+                    b.HasOne("FoodCompanyManagement.Server.Models.DietPlan", "DietPlan")
                         .WithMany()
                         .HasForeignKey("DietPlanId");
 
@@ -634,6 +671,11 @@ namespace FoodCompanyManagement.Server.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FoodCompanyManagement.Server.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Topics");
                 });
 #pragma warning restore 612, 618
         }

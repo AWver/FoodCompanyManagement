@@ -15,6 +15,6 @@ namespace FoodCompanyManagement.Server.Models
 		public int User_Id { get; set; }
 		public virtual User User { get; set; }
 
-		public virtual ApplicationUser appUser { get; set; }
+
 	}
 }
