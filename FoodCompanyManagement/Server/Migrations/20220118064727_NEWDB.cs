@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FoodCompanyManagement.Server.Migrations
 {
-    public partial class newDbAppUser : Migration
+    public partial class NEWDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -134,6 +134,51 @@ namespace FoodCompanyManagement.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MembershipStatus = table.Column<bool>(type: "bit", nullable: false),
+                    UserDiet_Id = table.Column<int>(type: "int", nullable: false),
+                    User_DietPlanId = table.Column<int>(type: "int", nullable: true),
+                    Profile_Id = table.Column<int>(type: "int", nullable: false),
+                    ProfileDataId = table.Column<int>(type: "int", nullable: true),
+                    isStaff = table.Column<bool>(type: "bit", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_ProfileDatas_ProfileDataId",
+                        column: x => x.ProfileDataId,
+                        principalTable: "ProfileDatas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_User_DietPlans_User_DietPlanId",
+                        column: x => x.User_DietPlanId,
+                        principalTable: "User_DietPlans",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DailyMeals",
                 columns: table => new
                 {
@@ -184,41 +229,6 @@ namespace FoodCompanyManagement.Server.Migrations
                         name: "FK_User_User_DietPlans_User_DietPlanId",
                         column: x => x.User_DietPlanId,
                         principalTable: "User_DietPlans",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    User_ID = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -318,22 +328,15 @@ namespace FoodCompanyManagement.Server.Migrations
                     TopicDesc = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TopicName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     User_Id = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Topics", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Topics_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Topics_User_UserId",
+                        name: "FK_Topics_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "User",
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -346,8 +349,8 @@ namespace FoodCompanyManagement.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Poster = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PostDesc = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Users_Id = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true),
+                    User_Id = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Topic_Id = table.Column<int>(type: "int", nullable: false),
                     TopicId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -355,23 +358,67 @@ namespace FoodCompanyManagement.Server.Migrations
                 {
                     table.PrimaryKey("PK_Posts", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Posts_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Posts_Topics_TopicId",
                         column: x => x.TopicId,
                         principalTable: "Topics",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Posts_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "29c68b02-375b-4620-9df4-b4172da5e90a", "Administrator", "ADMINISTRATOR" },
+                    { "bd2bcf0c-20db-474f-8407-5a6b159518bb", "8adab502-bb7d-4711-b91c-5f07e37b7a08", "User", "USER" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "MembershipStatus", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfileDataId", "Profile_Id", "SecurityStamp", "TwoFactorEnabled", "UserDiet_Id", "UserName", "User_DietPlanId", "isStaff" },
+                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "32a47801-70a8-43e0-973b-647ef3735c30", "admin@localhost.com", false, "Admin", "User", false, null, false, "ADMIN@LOCALHOST.COM", "ADMIN", "AQAAAAEAACcQAAAAEDRGu6zxKNuwWu8UwoDhyZPAuVckUe66umtdZyGdq0Ky8lMvGj16ivmpa8hclN+PTA==", null, false, null, 0, "7fc2b3eb-f7f9-4634-b76b-5f1c2a239fa6", false, 0, "Admin", null, false });
+
+            migrationBuilder.InsertData(
+                table: "DailyMeals",
+                columns: new[] { "Id", "MealDate", "MealDescription", "MealPhoto", "UserDiet_Id", "User_DietPlanId" },
+                values: new object[] { 1, new DateTime(2022, 1, 18, 0, 0, 0, 0, DateTimeKind.Local), "Pan-seared Salmon", "URL placed here", 1, null });
 
             migrationBuilder.InsertData(
                 table: "DietPlans",
                 columns: new[] { "Id", "DietCategory", "DietReccFoods", "DietWeek" },
                 values: new object[] { 1, "Pescatarian", "Salmon, Sea bass", 1 });
+
+            migrationBuilder.InsertData(
+                table: "Posts",
+                columns: new[] { "Id", "PostDesc", "Poster", "TopicId", "Topic_Id", "UserId", "User_Id" },
+                values: new object[] { 1, "Not entirely certain whether Whey Protein will have any detrimental side effects. I am taking it after every gym session, will there be any issues?", "Amir_Weaver", null, 1, null, 1 });
+
+            migrationBuilder.InsertData(
+                table: "ProfileDatas",
+                columns: new[] { "Id", "DietRestriction", "Gender", "Weight" },
+                values: new object[] { 1, "Muslim", "Male", 65f });
+
+            migrationBuilder.InsertData(
+                table: "Topics",
+                columns: new[] { "Id", "IsMembership", "TopicDesc", "TopicName", "UserId", "User_Id" },
+                values: new object[] { 1, true, "Does Whey Protein have any side effects on health?", "Whey Protein", null, 1 });
+
+            migrationBuilder.InsertData(
+                table: "User_DietPlans",
+                columns: new[] { "Id", "DietEnd", "DietPlanId", "DietStart", "Diet_Id" },
+                values: new object[] { 1, new DateTime(2022, 1, 18, 0, 0, 0, 0, DateTimeKind.Local), null, new DateTime(2022, 1, 18, 0, 0, 0, 0, DateTimeKind.Local), 1 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "3781efa7-66dc-47f0-860f-e506d04102e4" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -406,9 +453,14 @@ namespace FoodCompanyManagement.Server.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_UserId",
+                name: "IX_AspNetUsers_ProfileDataId",
                 table: "AspNetUsers",
-                column: "UserId");
+                column: "ProfileDataId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_User_DietPlanId",
+                table: "AspNetUsers",
+                column: "User_DietPlanId");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -457,11 +509,6 @@ namespace FoodCompanyManagement.Server.Migrations
                 name: "IX_Posts_UserId",
                 table: "Posts",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Topics_ApplicationUserId",
-                table: "Topics",
-                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Topics_UserId",
@@ -514,6 +561,9 @@ namespace FoodCompanyManagement.Server.Migrations
                 name: "Posts");
 
             migrationBuilder.DropTable(
+                name: "User");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -521,9 +571,6 @@ namespace FoodCompanyManagement.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "User");
 
             migrationBuilder.DropTable(
                 name: "ProfileDatas");

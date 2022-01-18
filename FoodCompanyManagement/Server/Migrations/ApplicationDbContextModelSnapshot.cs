@@ -50,6 +50,9 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<bool>("MembershipStatus")
+                        .HasColumnType("bit");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -67,21 +70,30 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("ProfileDataId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Profile_Id")
+                        .HasColumnType("int");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserDiet_Id")
                         .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<int>("User_ID")
+                    b.Property<int?>("User_DietPlanId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("isStaff")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -93,9 +105,35 @@ namespace FoodCompanyManagement.Server.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ProfileDataId");
+
+                    b.HasIndex("User_DietPlanId");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "32a47801-70a8-43e0-973b-647ef3735c30",
+                            Email = "admin@localhost.com",
+                            EmailConfirmed = false,
+                            FirstName = "Admin",
+                            LastName = "User",
+                            LockoutEnabled = false,
+                            MembershipStatus = false,
+                            NormalizedEmail = "ADMIN@LOCALHOST.COM",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDRGu6zxKNuwWu8UwoDhyZPAuVckUe66umtdZyGdq0Ky8lMvGj16ivmpa8hclN+PTA==",
+                            PhoneNumberConfirmed = false,
+                            Profile_Id = 0,
+                            SecurityStamp = "7fc2b3eb-f7f9-4634-b76b-5f1c2a239fa6",
+                            TwoFactorEnabled = false,
+                            UserDiet_Id = 0,
+                            UserName = "Admin",
+                            isStaff = false
+                        });
                 });
 
             modelBuilder.Entity("FoodCompanyManagement.Server.Models.DailyMeal", b =>
@@ -125,6 +163,16 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.HasIndex("User_DietPlanId");
 
                     b.ToTable("DailyMeals");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            MealDate = new DateTime(2022, 1, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            MealDescription = "Pan-seared Salmon",
+                            MealPhoto = "URL placed here",
+                            UserDiet_Id = 1
+                        });
                 });
 
             modelBuilder.Entity("FoodCompanyManagement.Server.Models.DietPlan", b =>
@@ -176,10 +224,10 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.Property<int>("Topic_Id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("Users_Id")
+                    b.Property<int>("User_Id")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -189,6 +237,16 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Posts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PostDesc = "Not entirely certain whether Whey Protein will have any detrimental side effects. I am taking it after every gym session, will there be any issues?",
+                            Poster = "Amir_Weaver",
+                            Topic_Id = 1,
+                            User_Id = 1
+                        });
                 });
 
             modelBuilder.Entity("FoodCompanyManagement.Server.Models.ProfileData", b =>
@@ -210,6 +268,15 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProfileDatas");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DietRestriction = "Muslim",
+                            Gender = "Male",
+                            Weight = 65f
+                        });
                 });
 
             modelBuilder.Entity("FoodCompanyManagement.Server.Models.Topic", b =>
@@ -218,9 +285,6 @@ namespace FoodCompanyManagement.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsMembership")
                         .HasColumnType("bit");
@@ -231,19 +295,27 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.Property<string>("TopicName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("User_Id")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Topics");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsMembership = true,
+                            TopicDesc = "Does Whey Protein have any side effects on health?",
+                            TopicName = "Whey Protein",
+                            User_Id = 1
+                        });
                 });
 
             modelBuilder.Entity("FoodCompanyManagement.Server.Models.User", b =>
@@ -310,6 +382,15 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.HasIndex("DietPlanId");
 
                     b.ToTable("User_DietPlans");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DietEnd = new DateTime(2022, 1, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            DietStart = new DateTime(2022, 1, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            Diet_Id = 1
+                        });
                 });
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
@@ -440,6 +521,22 @@ namespace FoodCompanyManagement.Server.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ad2bcf0c-20db-474f-8407-5a6b159518ba",
+                            ConcurrencyStamp = "29c68b02-375b-4620-9df4-b4172da5e90a",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "bd2bcf0c-20db-474f-8407-5a6b159518bb",
+                            ConcurrencyStamp = "8adab502-bb7d-4711-b91c-5f07e37b7a08",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -527,6 +624,13 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "3781efa7-66dc-47f0-860f-e506d04102e4",
+                            RoleId = "ad2bcf0c-20db-474f-8407-5a6b159518ba"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -552,11 +656,17 @@ namespace FoodCompanyManagement.Server.Migrations
 
             modelBuilder.Entity("FoodCompanyManagement.Server.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("FoodCompanyManagement.Server.Models.User", "User")
+                    b.HasOne("FoodCompanyManagement.Server.Models.ProfileData", "ProfileData")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("ProfileDataId");
 
-                    b.Navigation("User");
+                    b.HasOne("FoodCompanyManagement.Server.Models.User_DietPlan", "User_DietPlan")
+                        .WithMany()
+                        .HasForeignKey("User_DietPlanId");
+
+                    b.Navigation("ProfileData");
+
+                    b.Navigation("User_DietPlan");
                 });
 
             modelBuilder.Entity("FoodCompanyManagement.Server.Models.DailyMeal", b =>
@@ -574,7 +684,7 @@ namespace FoodCompanyManagement.Server.Migrations
                         .WithMany()
                         .HasForeignKey("TopicId");
 
-                    b.HasOne("FoodCompanyManagement.Server.Models.User", "User")
+                    b.HasOne("FoodCompanyManagement.Server.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
@@ -585,12 +695,8 @@ namespace FoodCompanyManagement.Server.Migrations
 
             modelBuilder.Entity("FoodCompanyManagement.Server.Models.Topic", b =>
                 {
-                    b.HasOne("FoodCompanyManagement.Server.Models.ApplicationUser", null)
+                    b.HasOne("FoodCompanyManagement.Server.Models.ApplicationUser", "User")
                         .WithMany("Topics")
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("FoodCompanyManagement.Server.Models.User", "User")
-                        .WithMany()
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");

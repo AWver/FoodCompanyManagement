@@ -13,7 +13,7 @@ namespace FoodCompanyManagement.Server.Models
 		public string TopicDesc { get; set; }
 		public string TopicName { get; set; }
 		public int User_Id { get; set; }
-		public virtual User User { get; set; }
+		public virtual ApplicationUser User { get; set; }
 
 
 	}
