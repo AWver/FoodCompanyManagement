@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FoodCompanyManagement.Server.Data;
-using FoodCompanyManagement.Server.Models;
+using FoodCompanyManagement.Shared.Domain;
 using FoodCompanyManagement.Server.IRepository;
 
 namespace FoodCompanyManagement.Server.Controllers

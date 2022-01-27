@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using FoodCompanyManagement.Server.Models;
+using FoodCompanyManagement.Shared.Domain;
 using FoodCompanyManagement.Server.Configurations.Entities;
 
 namespace FoodCompanyManagement.Server.Data

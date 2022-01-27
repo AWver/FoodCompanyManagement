@@ -1,0 +1,15 @@
+﻿@page "/startupinit/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+<h3 class="card-title">We've noticed you haven't set your Profile Data yet! Let's do that now.</h3>
+
+<br />
+
+
+@code {
+	private List<ProfileData> ProfileDatas;
+
+
+}

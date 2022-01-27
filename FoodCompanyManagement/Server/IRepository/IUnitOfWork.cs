@@ -1,4 +1,4 @@
-﻿using FoodCompanyManagement.Server.Models;
+﻿using FoodCompanyManagement.Shared.Domain;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;

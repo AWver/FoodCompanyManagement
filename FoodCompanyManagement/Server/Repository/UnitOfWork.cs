@@ -1,6 +1,7 @@
 ﻿using FoodCompanyManagement.Server.Data;
 using FoodCompanyManagement.Server.IRepository;
 using FoodCompanyManagement.Server.Models;
+using FoodCompanyManagement.Shared.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

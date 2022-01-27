@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using FoodCompanyManagement.Server.Models;
+using FoodCompanyManagement.Shared.Domain;
 
 namespace FoodCompanyManagement.Server.Models
 {

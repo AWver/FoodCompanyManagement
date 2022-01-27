@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FoodCompanyManagement.Server.Models
+namespace FoodCompanyManagement.Shared.Domain
 {
 	public class Post : BaseDomainModel
 	{
