@@ -13,51 +13,51 @@ namespace FoodCompanyManagement.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TopicsController : ControllerBase
+    public class User_DietPlansController : ControllerBase
     {
         //private readonly ApplicationDbContext _context;
         private readonly IUnitOfWork _unitOfWork;
 
-        public TopicsController(IUnitOfWork unitOfWork)
+        public User_DietPlansController(IUnitOfWork unitOfWork)
         {
             // _context = context;
             _unitOfWork = unitOfWork;
 
         }
 
-        // GET: api/Topics
+        // GET: api/User_DietPlans
         [HttpGet]
-        public async Task<IActionResult> GetTopics()
+        public async Task<IActionResult> GetUser_DietPlans()
         {
-            var topics = await _unitOfWork.Topics.GetAll();
-            return Ok(topics);
+            var user_DietPlans = await _unitOfWork.User_DietPlans.GetAll();
+            return Ok(user_DietPlans);
         }
 
-        // GET: api/Topics/5
+        // GET: api/User_DietPlans/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTopic(int id)
+        public async Task<IActionResult> GetUser_DietPlan(int id)
         {
-            var topic = await _unitOfWork.Topics.Get(q => q.Id == id);
+            var user_DietPlan = await _unitOfWork.User_DietPlans.Get(q => q.Id == id);
 
-            if (topic == null)
+            if (user_DietPlan == null)
             {
                 return NotFound();
             }
 
-            return Ok(topic);
+            return Ok(user_DietPlan);
         }
 
-        // PUT: api/Topics/5
+        // PUT: api/User_DietPlans/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTopic(int id, Topic topic)
+        public async Task<IActionResult> PutUser_DietPlan(int id, User_DietPlan user_DietPlan)
         {
-            if (id != topic.Id)
+            if (id != user_DietPlan.Id)
             {
                 return BadRequest();
             }
 
-            _unitOfWork.Topics.Update(topic);
+            _unitOfWork.User_DietPlans.Update(user_DietPlan);
 
             try
             {
@@ -65,7 +65,7 @@ namespace FoodCompanyManagement.Server.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!await TopicExists(id))
+                if (!await User_DietPlanExists(id))
                 {
                     return NotFound();
                 }
@@ -78,37 +78,37 @@ namespace FoodCompanyManagement.Server.Controllers
             return NoContent();
         }
 
-        // POST: api/Topics
+        // POST: api/User_DietPlans
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Topic>> PostTopic(Topic topic)
+        public async Task<ActionResult<User_DietPlan>> PostUser_DietPlan(User_DietPlan user_DietPlan)
         {
-            await _unitOfWork.Topics.Insert(topic);
+            await _unitOfWork.User_DietPlans.Insert(user_DietPlan);
             await _unitOfWork.Save(HttpContext);
 
-            return CreatedAtAction("GetTopic", new { id = topic.Id }, topic);
+            return CreatedAtAction("GetUser_DietPlan", new { id = user_DietPlan.Id }, user_DietPlan);
         }
 
-        // DELETE: api/Topics/5
+        // DELETE: api/User_DietPlans/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTopic(int id)
+        public async Task<IActionResult> DeleteUser_DietPlan(int id)
         {
-            var topic = await _unitOfWork.Topics.Get(q => q.Id == id);
-            if (topic == null)
+            var user_DietPlan = await _unitOfWork.User_DietPlans.Get(q => q.Id == id);
+            if (user_DietPlan == null)
             {
                 return NotFound();
             }
 
-            await _unitOfWork.Topics.Delete(id);
+            await _unitOfWork.User_DietPlans.Delete(id);
             await _unitOfWork.Save(HttpContext);
 
             return NoContent();
         }
 
-        private async Task<bool> TopicExists(int id)
+        private async Task<bool> User_DietPlanExists(int id)
         {
-            var topic = await _unitOfWork.Topics.Get(q => q.Id == id);
-            return topic != null;
+            var user_DietPlan = await _unitOfWork.User_DietPlans.Get(q => q.Id == id);
+            return user_DietPlan != null;
         }
     }
 }

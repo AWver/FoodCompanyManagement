@@ -13,51 +13,51 @@ namespace FoodCompanyManagement.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TopicsController : ControllerBase
+    public class DietPlansController : ControllerBase
     {
         //private readonly ApplicationDbContext _context;
         private readonly IUnitOfWork _unitOfWork;
 
-        public TopicsController(IUnitOfWork unitOfWork)
+        public DietPlansController(IUnitOfWork unitOfWork)
         {
             // _context = context;
             _unitOfWork = unitOfWork;
 
         }
 
-        // GET: api/Topics
+        // GET: api/DietPlans
         [HttpGet]
-        public async Task<IActionResult> GetTopics()
+        public async Task<IActionResult> GetDietPlans()
         {
-            var topics = await _unitOfWork.Topics.GetAll();
-            return Ok(topics);
+            var dietPlans = await _unitOfWork.DietPlans.GetAll();
+            return Ok(dietPlans);
         }
 
-        // GET: api/Topics/5
+        // GET: api/DietPlans/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTopic(int id)
+        public async Task<IActionResult> GetDietPlan(int id)
         {
-            var topic = await _unitOfWork.Topics.Get(q => q.Id == id);
+            var dietPlan = await _unitOfWork.DietPlans.Get(q => q.Id == id);
 
-            if (topic == null)
+            if (dietPlan == null)
             {
                 return NotFound();
             }
 
-            return Ok(topic);
+            return Ok(dietPlan);
         }
 
-        // PUT: api/Topics/5
+        // PUT: api/DietPlans/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTopic(int id, Topic topic)
+        public async Task<IActionResult> PutDietPlan(int id, DietPlan dietPlan)
         {
-            if (id != topic.Id)
+            if (id != dietPlan.Id)
             {
                 return BadRequest();
             }
 
-            _unitOfWork.Topics.Update(topic);
+            _unitOfWork.DietPlans.Update(dietPlan);
 
             try
             {
@@ -65,7 +65,7 @@ namespace FoodCompanyManagement.Server.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!await TopicExists(id))
+                if (!await DietPlanExists(id))
                 {
                     return NotFound();
                 }
@@ -78,37 +78,37 @@ namespace FoodCompanyManagement.Server.Controllers
             return NoContent();
         }
 
-        // POST: api/Topics
+        // POST: api/DietPlans
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Topic>> PostTopic(Topic topic)
+        public async Task<ActionResult<DietPlan>> PostDietPlan(DietPlan dietPlan)
         {
-            await _unitOfWork.Topics.Insert(topic);
+            await _unitOfWork.DietPlans.Insert(dietPlan);
             await _unitOfWork.Save(HttpContext);
 
-            return CreatedAtAction("GetTopic", new { id = topic.Id }, topic);
+            return CreatedAtAction("GetDietPlan", new { id = dietPlan.Id }, dietPlan);
         }
 
-        // DELETE: api/Topics/5
+        // DELETE: api/DietPlans/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTopic(int id)
+        public async Task<IActionResult> DeleteDietPlan(int id)
         {
-            var topic = await _unitOfWork.Topics.Get(q => q.Id == id);
-            if (topic == null)
+            var dietPlan = await _unitOfWork.DietPlans.Get(q => q.Id == id);
+            if (dietPlan == null)
             {
                 return NotFound();
             }
 
-            await _unitOfWork.Topics.Delete(id);
+            await _unitOfWork.DietPlans.Delete(id);
             await _unitOfWork.Save(HttpContext);
 
             return NoContent();
         }
 
-        private async Task<bool> TopicExists(int id)
+        private async Task<bool> DietPlanExists(int id)
         {
-            var topic = await _unitOfWork.Topics.Get(q => q.Id == id);
-            return topic != null;
+            var dietPlan = await _unitOfWork.DietPlans.Get(q => q.Id == id);
+            return dietPlan != null;
         }
     }
 }

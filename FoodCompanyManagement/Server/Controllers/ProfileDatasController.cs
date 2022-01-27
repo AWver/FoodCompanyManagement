@@ -13,51 +13,51 @@ namespace FoodCompanyManagement.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TopicsController : ControllerBase
+    public class ProfileDatasController : ControllerBase
     {
         //private readonly ApplicationDbContext _context;
         private readonly IUnitOfWork _unitOfWork;
 
-        public TopicsController(IUnitOfWork unitOfWork)
+        public ProfileDatasController(IUnitOfWork unitOfWork)
         {
             // _context = context;
             _unitOfWork = unitOfWork;
 
         }
 
-        // GET: api/Topics
+        // GET: api/ProfileDatas
         [HttpGet]
-        public async Task<IActionResult> GetTopics()
+        public async Task<IActionResult> GetProfileDatas()
         {
-            var topics = await _unitOfWork.Topics.GetAll();
-            return Ok(topics);
+            var profileDatas = await _unitOfWork.ProfileDatas.GetAll();
+            return Ok(profileDatas);
         }
 
-        // GET: api/Topics/5
+        // GET: api/ProfileDatas/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTopic(int id)
+        public async Task<IActionResult> GetProfileData(int id)
         {
-            var topic = await _unitOfWork.Topics.Get(q => q.Id == id);
+            var profileData = await _unitOfWork.ProfileDatas.Get(q => q.Id == id);
 
-            if (topic == null)
+            if (profileData == null)
             {
                 return NotFound();
             }
 
-            return Ok(topic);
+            return Ok(profileData);
         }
 
-        // PUT: api/Topics/5
+        // PUT: api/ProfileDatas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTopic(int id, Topic topic)
+        public async Task<IActionResult> PutProfileData(int id, ProfileData profileData)
         {
-            if (id != topic.Id)
+            if (id != profileData.Id)
             {
                 return BadRequest();
             }
 
-            _unitOfWork.Topics.Update(topic);
+            _unitOfWork.ProfileDatas.Update(profileData);
 
             try
             {
@@ -65,7 +65,7 @@ namespace FoodCompanyManagement.Server.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!await TopicExists(id))
+                if (!await ProfileDataExists(id))
                 {
                     return NotFound();
                 }
@@ -78,37 +78,37 @@ namespace FoodCompanyManagement.Server.Controllers
             return NoContent();
         }
 
-        // POST: api/Topics
+        // POST: api/ProfileDatas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Topic>> PostTopic(Topic topic)
+        public async Task<ActionResult<ProfileData>> PostProfileData(ProfileData profileData)
         {
-            await _unitOfWork.Topics.Insert(topic);
+            await _unitOfWork.ProfileDatas.Insert(profileData);
             await _unitOfWork.Save(HttpContext);
 
-            return CreatedAtAction("GetTopic", new { id = topic.Id }, topic);
+            return CreatedAtAction("GetProfileData", new { id = profileData.Id }, profileData);
         }
 
-        // DELETE: api/Topics/5
+        // DELETE: api/ProfileDatas/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTopic(int id)
+        public async Task<IActionResult> DeleteProfileData(int id)
         {
-            var topic = await _unitOfWork.Topics.Get(q => q.Id == id);
-            if (topic == null)
+            var profileData = await _unitOfWork.ProfileDatas.Get(q => q.Id == id);
+            if (profileData == null)
             {
                 return NotFound();
             }
 
-            await _unitOfWork.Topics.Delete(id);
+            await _unitOfWork.ProfileDatas.Delete(id);
             await _unitOfWork.Save(HttpContext);
 
             return NoContent();
         }
 
-        private async Task<bool> TopicExists(int id)
+        private async Task<bool> ProfileDataExists(int id)
         {
-            var topic = await _unitOfWork.Topics.Get(q => q.Id == id);
-            return topic != null;
+            var profileData = await _unitOfWork.ProfileDatas.Get(q => q.Id == id);
+            return profileData != null;
         }
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodCompanyManagement.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220118064727_NEWDB")]
-    partial class NEWDB
+    [Migration("20220127091116_newnewDB")]
+    partial class newnewDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -118,7 +118,7 @@ namespace FoodCompanyManagement.Server.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "32a47801-70a8-43e0-973b-647ef3735c30",
+                            ConcurrencyStamp = "0713d776-0023-4083-96ef-fdcfbdf50153",
                             Email = "admin@localhost.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -127,10 +127,10 @@ namespace FoodCompanyManagement.Server.Migrations
                             MembershipStatus = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDRGu6zxKNuwWu8UwoDhyZPAuVckUe66umtdZyGdq0Ky8lMvGj16ivmpa8hclN+PTA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBkY5vIrHW6m6mFdy4XXVSaeZw3NpWpgGrAm9Km+3LbzNrb51LlHjzLTQhQyjdgNpQ==",
                             PhoneNumberConfirmed = false,
                             Profile_Id = 0,
-                            SecurityStamp = "7fc2b3eb-f7f9-4634-b76b-5f1c2a239fa6",
+                            SecurityStamp = "b36450f9-b86a-4559-9aa0-c5b603816c03",
                             TwoFactorEnabled = false,
                             UserDiet_Id = 0,
                             UserName = "Admin",
@@ -145,6 +145,15 @@ namespace FoodCompanyManagement.Server.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("MealDate")
                         .HasColumnType("datetime2");
 
@@ -152,6 +161,9 @@ namespace FoodCompanyManagement.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MealPhoto")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserDiet_Id")
@@ -170,7 +182,9 @@ namespace FoodCompanyManagement.Server.Migrations
                         new
                         {
                             Id = 1,
-                            MealDate = new DateTime(2022, 1, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MealDate = new DateTime(2022, 1, 27, 0, 0, 0, 0, DateTimeKind.Local),
                             MealDescription = "Pan-seared Salmon",
                             MealPhoto = "URL placed here",
                             UserDiet_Id = 1
@@ -184,6 +198,15 @@ namespace FoodCompanyManagement.Server.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("DietCategory")
                         .HasColumnType("nvarchar(max)");
 
@@ -193,6 +216,9 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.Property<int>("DietWeek")
                         .HasColumnType("int");
 
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("DietPlans");
@@ -201,6 +227,8 @@ namespace FoodCompanyManagement.Server.Migrations
                         new
                         {
                             Id = 1,
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DietCategory = "Pescatarian",
                             DietReccFoods = "Salmon, Sea bass",
                             DietWeek = 1
@@ -214,6 +242,15 @@ namespace FoodCompanyManagement.Server.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("PostDesc")
                         .HasColumnType("nvarchar(max)");
 
@@ -225,6 +262,9 @@ namespace FoodCompanyManagement.Server.Migrations
 
                     b.Property<int>("Topic_Id")
                         .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -244,6 +284,8 @@ namespace FoodCompanyManagement.Server.Migrations
                         new
                         {
                             Id = 1,
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PostDesc = "Not entirely certain whether Whey Protein will have any detrimental side effects. I am taking it after every gym session, will there be any issues?",
                             Poster = "Amir_Weaver",
                             Topic_Id = 1,
@@ -258,10 +300,22 @@ namespace FoodCompanyManagement.Server.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("DietRestriction")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("Weight")
@@ -275,6 +329,8 @@ namespace FoodCompanyManagement.Server.Migrations
                         new
                         {
                             Id = 1,
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DietRestriction = "Muslim",
                             Gender = "Male",
                             Weight = 65f
@@ -288,6 +344,15 @@ namespace FoodCompanyManagement.Server.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsMembership")
                         .HasColumnType("bit");
 
@@ -295,6 +360,9 @@ namespace FoodCompanyManagement.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TopicName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
@@ -313,6 +381,8 @@ namespace FoodCompanyManagement.Server.Migrations
                         new
                         {
                             Id = 1,
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsMembership = true,
                             TopicDesc = "Does Whey Protein have any side effects on health?",
                             TopicName = "Whey Protein",
@@ -327,6 +397,15 @@ namespace FoodCompanyManagement.Server.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("MembershipStatus")
                         .HasColumnType("bit");
 
@@ -338,6 +417,9 @@ namespace FoodCompanyManagement.Server.Migrations
 
                     b.Property<int>("Profile_Id")
                         .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserDiet_Id")
                         .HasColumnType("int");
@@ -367,6 +449,15 @@ namespace FoodCompanyManagement.Server.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("DietEnd")
                         .HasColumnType("datetime2");
 
@@ -379,6 +470,9 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.Property<int>("Diet_Id")
                         .HasColumnType("int");
 
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DietPlanId");
@@ -389,8 +483,10 @@ namespace FoodCompanyManagement.Server.Migrations
                         new
                         {
                             Id = 1,
-                            DietEnd = new DateTime(2022, 1, 18, 0, 0, 0, 0, DateTimeKind.Local),
-                            DietStart = new DateTime(2022, 1, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DietEnd = new DateTime(2022, 1, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            DietStart = new DateTime(2022, 1, 27, 0, 0, 0, 0, DateTimeKind.Local),
                             Diet_Id = 1
                         });
                 });
@@ -528,14 +624,14 @@ namespace FoodCompanyManagement.Server.Migrations
                         new
                         {
                             Id = "ad2bcf0c-20db-474f-8407-5a6b159518ba",
-                            ConcurrencyStamp = "29c68b02-375b-4620-9df4-b4172da5e90a",
+                            ConcurrencyStamp = "49c5486a-7343-4c45-ad55-aa105b2f5d01",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "bd2bcf0c-20db-474f-8407-5a6b159518bb",
-                            ConcurrencyStamp = "8adab502-bb7d-4711-b91c-5f07e37b7a08",
+                            ConcurrencyStamp = "8f0f9815-62bf-4812-8b6c-87d832c63bb4",
                             Name = "User",
                             NormalizedName = "USER"
                         });

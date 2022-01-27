@@ -13,51 +13,51 @@ namespace FoodCompanyManagement.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TopicsController : ControllerBase
+    public class PostsController : ControllerBase
     {
         //private readonly ApplicationDbContext _context;
         private readonly IUnitOfWork _unitOfWork;
 
-        public TopicsController(IUnitOfWork unitOfWork)
+        public PostsController(IUnitOfWork unitOfWork)
         {
             // _context = context;
             _unitOfWork = unitOfWork;
 
         }
 
-        // GET: api/Topics
+        // GET: api/Posts
         [HttpGet]
-        public async Task<IActionResult> GetTopics()
+        public async Task<IActionResult> GetPosts()
         {
-            var topics = await _unitOfWork.Topics.GetAll();
-            return Ok(topics);
+            var posts = await _unitOfWork.Posts.GetAll();
+            return Ok(posts);
         }
 
-        // GET: api/Topics/5
+        // GET: api/Posts/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTopic(int id)
+        public async Task<IActionResult> GetPost(int id)
         {
-            var topic = await _unitOfWork.Topics.Get(q => q.Id == id);
+            var post = await _unitOfWork.Posts.Get(q => q.Id == id);
 
-            if (topic == null)
+            if (post == null)
             {
                 return NotFound();
             }
 
-            return Ok(topic);
+            return Ok(post);
         }
 
-        // PUT: api/Topics/5
+        // PUT: api/Posts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTopic(int id, Topic topic)
+        public async Task<IActionResult> PutPost(int id, Post post)
         {
-            if (id != topic.Id)
+            if (id != post.Id)
             {
                 return BadRequest();
             }
 
-            _unitOfWork.Topics.Update(topic);
+            _unitOfWork.Posts.Update(post);
 
             try
             {
@@ -65,7 +65,7 @@ namespace FoodCompanyManagement.Server.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!await TopicExists(id))
+                if (!await PostExists(id))
                 {
                     return NotFound();
                 }
@@ -78,37 +78,37 @@ namespace FoodCompanyManagement.Server.Controllers
             return NoContent();
         }
 
-        // POST: api/Topics
+        // POST: api/Posts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Topic>> PostTopic(Topic topic)
+        public async Task<ActionResult<Post>> PostPost(Post post)
         {
-            await _unitOfWork.Topics.Insert(topic);
+            await _unitOfWork.Posts.Insert(post);
             await _unitOfWork.Save(HttpContext);
 
-            return CreatedAtAction("GetTopic", new { id = topic.Id }, topic);
+            return CreatedAtAction("GetPost", new { id = post.Id }, post);
         }
 
-        // DELETE: api/Topics/5
+        // DELETE: api/Posts/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTopic(int id)
+        public async Task<IActionResult> DeletePost(int id)
         {
-            var topic = await _unitOfWork.Topics.Get(q => q.Id == id);
-            if (topic == null)
+            var post = await _unitOfWork.Posts.Get(q => q.Id == id);
+            if (post == null)
             {
                 return NotFound();
             }
 
-            await _unitOfWork.Topics.Delete(id);
+            await _unitOfWork.Posts.Delete(id);
             await _unitOfWork.Save(HttpContext);
 
             return NoContent();
         }
 
-        private async Task<bool> TopicExists(int id)
+        private async Task<bool> PostExists(int id)
         {
-            var topic = await _unitOfWork.Topics.Get(q => q.Id == id);
-            return topic != null;
+            var post = await _unitOfWork.Posts.Get(q => q.Id == id);
+            return post != null;
         }
     }
 }

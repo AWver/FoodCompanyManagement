@@ -1,6 +1,8 @@
 using System.Linq;
 using FoodCompanyManagement.Server.Data;
+using FoodCompanyManagement.Server.IRepository;
 using FoodCompanyManagement.Server.Models;
+using FoodCompanyManagement.Server.Repository;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -42,6 +44,8 @@ namespace FoodCompanyManagement.Server
 
 			services.AddAuthentication()
 				.AddIdentityServerJwt();
+
+			services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 			services.AddControllersWithViews();
 			services.AddRazorPages();
