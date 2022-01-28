@@ -12,9 +12,6 @@ namespace FoodCompanyManagement.Shared.Domain
 		public bool IsMembership { get; set; }
 		public string TopicDesc { get; set; }
 		public string TopicName { get; set; }
-		public int User_Id { get; set; }
-		public virtual ApplicationUser User { get; set; }
-
 
 	}
 }

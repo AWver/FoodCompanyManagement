@@ -18,7 +18,6 @@ namespace FoodCompanyManagement.Server.Configurations.Entities
 				Id = 1,
 				Poster = "Amir_Weaver",
 				PostDesc = "Not entirely certain whether Whey Protein will have any detrimental side effects. I am taking it after every gym session, will there be any issues?",
-				User_Id = 1,
 				Topic_Id = 1
 			}
 			);

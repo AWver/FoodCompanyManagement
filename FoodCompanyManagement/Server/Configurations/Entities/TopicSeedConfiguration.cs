@@ -18,8 +18,7 @@ namespace FoodCompanyManagement.Server.Configurations.Entities
 				Id = 1,
 				IsMembership = true,
 				TopicDesc = "Does Whey Protein have any side effects on health?",
-				TopicName = "Whey Protein",
-				User_Id = 1
+				TopicName = "Whey Protein"
 			}
 			);
 		}

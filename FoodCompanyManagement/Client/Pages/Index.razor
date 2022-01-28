@@ -1,7 +1,31 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using FoodCompanyManagement.Shared
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
 
-<h1>Hello, user!</h1>
 
-Welcome to Amir and Yu Sheng's Dietary Recommendation website.
+@if (ProfileDatas != null)
+{
+	<div class="alert alert-info">We've noticed you haven't set up your profile data yet.</div>
+}
+else
+{
+	<h1>Hello, user!</h1>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+	<h1>Welcome to Amir and Yu Sheng's Dietary Recommendation website.</h1>
+
+	<SurveyPrompt Title="How is Blazor working for you?" />
+}
+
+@code {
+	private List<ProfileData> ProfileDatas;
+
+	protected async override Task OnInitializedAsync()
+	{
+		ProfileDatas = await _client.GetFromJsonAsync<List<ProfileData>>($"{Endpoints.ProfileDatasEndpoint}");
+	}
+}
+

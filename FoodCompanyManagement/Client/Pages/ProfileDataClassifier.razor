@@ -3,13 +3,63 @@
 @inject IJSRuntime js
 @attribute [Authorize]
 
-<h3 class="card-title">We've noticed you haven't set your Profile Data yet! Let's do that now.</h3>
+@if (ProfileDatas == null)
+{
+	<div class="alert alert-info">Loading your profile's data..</div>
+}
+else
+{
+	<table class="table table-responsive">
+		<thead>
+			<tr>
+				<th>Gender</th>
+				<th>Diet Restrictions</th>
+				<th>Weight</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var profileData in ProfileDatas)
+			{
+			<tr>
+				<td>@profileData.Gender</td>
+				<td>@profileData.DietRestriction</td>
+				<td>@profileData.Weight</td>
+				<td>
+					<a href="/profileDatas/view/@profileData.Id" class="btn btn-primary">
+						<span class="oi oi-book"></span>
+					</a>
+					<a href="/profileDatas/edit/@profileData.Id" class="btn btn-warning">
+						<span class="oi oi-pencil"></span>
+					</a>
+					<button class="btn btn-danger" @onclick="@(()=>Delete(profileData.Id))">
+							<span class="oi oi-delete"></span>
+					</button>
+				</td>
 
-<br />
+			</tr>
+			}
+		</tbody>
+	</table>
+}
 
 
 @code {
 	private List<ProfileData> ProfileDatas;
 
+	protected async override Task OnInitializedAsync()
+	{
+		ProfileDatas = await _client.GetFromJsonAsync<List<ProfileData>>($"{Endpoints.ProfileDatasEndpoint}");
+	}
 
+	async Task Delete(int profileId)
+	{
+		var profileData = ProfileDatas.First(q => q.Id == profileId);
+		var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete your profile data?");
+		if (confirm)
+		{
+			await _client.DeleteAsync($"{Endpoints.ProfileDatasEndpoint}/{profileId}");
+			await OnInitializedAsync();
+		}
+	}
 }
