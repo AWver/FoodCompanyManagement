@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodCompanyManagement.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220128072906_databaseCope")]
-    partial class databaseCope
+    [Migration("20220129055856_reDB")]
+    partial class reDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -118,7 +118,7 @@ namespace FoodCompanyManagement.Server.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5c66717e-f08e-467e-b6a7-42c22552f7cd",
+                            ConcurrencyStamp = "06b814ee-4dc6-455a-adee-2f13646695fa",
                             Email = "admin@localhost.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -127,10 +127,10 @@ namespace FoodCompanyManagement.Server.Migrations
                             MembershipStatus = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE2f7FShTI2MiV/ti14zV3agH0k054NBqwEfpPTltCoKhuquuhWKClQEL1zD69Hn3Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBPub8MJ8y3W1z1F9Z+5pGN63rr9NPYkAH0RGGUiH6VdV0ElBaNPEYMu2n3GYPBX4Q==",
                             PhoneNumberConfirmed = false,
                             Profile_Id = 0,
-                            SecurityStamp = "3fe118cc-b5b2-405f-9ab2-69a510a34b01",
+                            SecurityStamp = "6c39de44-4e31-486c-80c0-b54e3681bfd9",
                             TwoFactorEnabled = false,
                             UserDiet_Id = 0,
                             UserName = "Admin",
@@ -184,7 +184,7 @@ namespace FoodCompanyManagement.Server.Migrations
                             Id = 1,
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            MealDate = new DateTime(2022, 1, 28, 0, 0, 0, 0, DateTimeKind.Local),
+                            MealDate = new DateTime(2022, 1, 29, 0, 0, 0, 0, DateTimeKind.Local),
                             MealDescription = "Pan-seared Salmon",
                             MealPhoto = "URL placed here",
                             UserDiet_Id = 1
@@ -320,11 +320,22 @@ namespace FoodCompanyManagement.Server.Migrations
                         new
                         {
                             Id = 1,
+                            CreatedBy = "Amir_Weaver",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DietRestriction = "Muslim",
                             Gender = "Male",
                             Weight = 65f
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = "Yu_Sheng",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DietRestriction = "Buddhist",
+                            Gender = "Female",
+                            Weight = 82f
                         });
                 });
 
@@ -472,8 +483,8 @@ namespace FoodCompanyManagement.Server.Migrations
                             Id = 1,
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DietEnd = new DateTime(2022, 1, 28, 0, 0, 0, 0, DateTimeKind.Local),
-                            DietStart = new DateTime(2022, 1, 28, 0, 0, 0, 0, DateTimeKind.Local),
+                            DietEnd = new DateTime(2022, 1, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            DietStart = new DateTime(2022, 1, 29, 0, 0, 0, 0, DateTimeKind.Local),
                             Diet_Id = 1
                         });
                 });
@@ -611,14 +622,14 @@ namespace FoodCompanyManagement.Server.Migrations
                         new
                         {
                             Id = "ad2bcf0c-20db-474f-8407-5a6b159518ba",
-                            ConcurrencyStamp = "6efdb8a7-dac8-4329-a807-ef7d79a7745e",
+                            ConcurrencyStamp = "8e7264d5-3979-43c0-99b8-12356faeef24",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "bd2bcf0c-20db-474f-8407-5a6b159518bb",
-                            ConcurrencyStamp = "7091066d-6107-42a2-a918-979c03da50ec",
+                            ConcurrencyStamp = "7944e778-54fc-4d00-a35e-373ca6e2ba5c",
                             Name = "User",
                             NormalizedName = "USER"
                         });
