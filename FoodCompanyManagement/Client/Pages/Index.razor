@@ -5,27 +5,71 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@using System.Security.Claims
 
-
-@if (ProfileDatas != null)
+@if (ProfileDatas == null)
 {
-	<div class="alert alert-info">We've noticed you haven't set up your profile data yet.</div>
+	<div class="alert alert-info">Loading your profile's data..</div>
 }
 else
 {
-	<h1>Hello, user!</h1>
-
-	<h1>Welcome to Amir and Yu Sheng's Dietary Recommendation website.</h1>
-
-	<SurveyPrompt Title="How is Blazor working for you?" />
+	if (hasProfData)
+	{
+		<h3>YOU HAVE PROFILE DATA</h3>
+	}
+	else
+	{
+		<h3>
+			You don't have profile data. Why don't we get you set up?
+			<a href="/profData/create" class="btn btn-secondary">
+				<span class="oi oi-plus"></span>
+				Set up Profile Data
+			</a>
+		</h3>
+	}
 }
+
 
 @code {
 	private List<ProfileData> ProfileDatas;
+	private List<AppUser> AppUsers;
+	private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
+	private string _currentUserName;
+	public int? currentId;
+	private AppUser currentAppUser;
+	private bool hasProfData = false;
 
 	protected async override Task OnInitializedAsync()
 	{
 		ProfileDatas = await _client.GetFromJsonAsync<List<ProfileData>>($"{Endpoints.ProfileDatasEndpoint}");
+		AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoints.AccountsEndpoint}");
+		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+		var user = authState.User;
+		if (user.Identity.IsAuthenticated)
+		{
+			_claims = user.Claims;
+			//_currentUserName = user.Identity.Name;
+			if (_claims.Count() > 0)
+			{
+				foreach (var claim in _claims)
+				{
+					if (claim.Type == "name")
+					{
+						_currentUserName = claim.Value;
+						continue;
+					}
+
+				}
+			}
+		}
+		@foreach (var profileData in ProfileDatas)
+		{
+			@if (profileData.CreatedBy == _currentUserName)
+			{
+				hasProfData = true;
+			}
+		}
 	}
 }
 

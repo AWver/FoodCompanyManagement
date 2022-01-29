@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FoodCompanyManagement.Server.Migrations
 {
-    public partial class reDB : Migration
+    public partial class db : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -395,14 +395,14 @@ namespace FoodCompanyManagement.Server.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "8e7264d5-3979-43c0-99b8-12356faeef24", "Administrator", "ADMINISTRATOR" },
-                    { "bd2bcf0c-20db-474f-8407-5a6b159518bb", "7944e778-54fc-4d00-a35e-373ca6e2ba5c", "User", "USER" }
+                    { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "26374900-7b54-47a7-b766-fd3bcfd9547e", "Administrator", "ADMINISTRATOR" },
+                    { "bd2bcf0c-20db-474f-8407-5a6b159518bb", "edf1fb94-290c-402a-be03-496f9ace911e", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "MembershipStatus", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfileDataId", "Profile_Id", "SecurityStamp", "TwoFactorEnabled", "UserDiet_Id", "UserName", "User_DietPlanId", "isStaff" },
-                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "06b814ee-4dc6-455a-adee-2f13646695fa", "admin@localhost.com", false, "Admin", "User", false, null, false, "ADMIN@LOCALHOST.COM", "ADMIN", "AQAAAAEAACcQAAAAEBPub8MJ8y3W1z1F9Z+5pGN63rr9NPYkAH0RGGUiH6VdV0ElBaNPEYMu2n3GYPBX4Q==", null, false, null, 0, "6c39de44-4e31-486c-80c0-b54e3681bfd9", false, 0, "Admin", null, false });
+                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "ae2c684c-3590-449b-917a-ede756abb3dc", "admin@localhost.com", false, "Admin", "User", false, null, false, "ADMIN@LOCALHOST.COM", "ADMIN", "AQAAAAEAACcQAAAAEMze54bpE3wF4aHVOL1Wn1KOx4B8514dDxfgf1xRwxqevS7W9fWVM4bcQJSq23ob5Q==", null, false, null, 0, "82cbccdf-6186-45ad-8c12-eeb0989d9176", false, 0, "Admin", null, false });
 
             migrationBuilder.InsertData(
                 table: "DailyMeals",

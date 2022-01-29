@@ -15,6 +15,7 @@ namespace FoodCompanyManagement.Client.Model
 		public string NormalizedUserName { get; }
 		public string UserName { get; set; }
 		public string Id { get; set; }
+		public int Profile_Id { get; set; }
 	}
 }
 //End of Code

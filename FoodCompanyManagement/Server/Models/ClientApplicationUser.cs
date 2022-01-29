@@ -14,6 +14,7 @@ namespace FoodCompanyManagement.Server.Models
 			this.Email = AppUser.Email;
 			this.NormalizedUserName = AppUser.NormalizedUserName;
 			this.UserName = AppUser.UserName;
+			this.Profile_Id = AppUser.Profile_Id;
 		}
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
@@ -23,6 +24,7 @@ namespace FoodCompanyManagement.Server.Models
 		public string NormalizedUserName { get; }
 		public string UserName { get; set; }
 		public string Id { get; set; }
+		public int Profile_Id { get; set; }
 	}
 }
 //End of Code
