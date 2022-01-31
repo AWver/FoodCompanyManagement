@@ -13,7 +13,11 @@
 	<div class="form-group">
 		<label>Gender: </label>
 		<div>
-			<InputText @bind-Value="@profData.Gender" class="form-control" />
+			<InputSelect @bind-Value="@profData.Gender" class="form-control">
+				<option value="">-- Select Restriction --</option>
+				<option value="@profData.Gender">Male</option>
+				<option value="@profData.Gender">Female</option>
+			</InputSelect>
 			<ValidationMessage For="@(()=>profData.Gender)" />
 		</div>
 	</div>
@@ -29,12 +33,16 @@
 		<div>
 			<InputSelect @bind-Value="@profData.DietRestriction" class="form-control">
 				<option value="">-- Select Restriction --</option>
-				<option value="">Muslim</option>
-				<option value="">Buddhist</option>
+				<option value="@profData.DietRestriction">Muslim</option>
+				<option value="@profData.DietRestriction">Buddhist</option>
 			</InputSelect>
 			<ValidationMessage For="@(()=>profData.DietRestriction)" />
 		</div>
 	</div>
+
+	<button type="submit" class="btn btn-success btn-block">
+		Set Profile Data
+	</button>
 
 </EditForm>
 

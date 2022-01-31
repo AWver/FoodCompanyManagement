@@ -1,7 +1,4 @@
 ﻿@page "/"
-@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using FoodCompanyManagement.Shared
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
@@ -21,7 +18,8 @@ else
 	else
 	{
 		<h3>
-			You don't have profile data. Why don't we get you set up?
+			You don't have any profile data. Why don't we get you set up? 
+			<br />
 			<a href="/profData/create" class="btn btn-secondary">
 				<span class="oi oi-plus"></span>
 				Set up Profile Data
@@ -32,7 +30,7 @@ else
 
 
 @code {
-	private List<ProfileData> ProfileDatas;
+	private List<FoodCompanyManagement.Shared.Domain.ProfileData> ProfileDatas;
 	private List<AppUser> AppUsers;
 	private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
 	private string _currentUserName;
@@ -42,7 +40,7 @@ else
 
 	protected async override Task OnInitializedAsync()
 	{
-		ProfileDatas = await _client.GetFromJsonAsync<List<ProfileData>>($"{Endpoints.ProfileDatasEndpoint}");
+		ProfileDatas = await _client.GetFromJsonAsync<List<FoodCompanyManagement.Shared.Domain.ProfileData>>($"{Endpoints.ProfileDatasEndpoint}");
 		AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoints.AccountsEndpoint}");
 		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
 		var user = authState.User;
