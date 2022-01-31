@@ -395,14 +395,14 @@ namespace FoodCompanyManagement.Server.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "ac9aebe8-1152-4d19-a601-09d29555db1c", "Administrator", "ADMINISTRATOR" },
-                    { "bd2bcf0c-20db-474f-8407-5a6b159518bb", "bff44730-e7c9-43ae-afc7-b5d0aa2daa8a", "User", "USER" }
+                    { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "64b84e42-2464-44fc-bab9-60ade4af7a07", "Administrator", "ADMINISTRATOR" },
+                    { "bd2bcf0c-20db-474f-8407-5a6b159518bb", "6e8f5fc9-745b-4b5c-be00-56f3cb556857", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "MembershipStatus", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfileDataId", "Profile_Id", "SecurityStamp", "TwoFactorEnabled", "UserDiet_Id", "UserName", "User_DietPlanId", "isStaff" },
-                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "2d2a206c-6a2b-4c38-8310-409b493bb2dd", "admin@localhost.com", false, "Admin", "User", false, null, false, "ADMIN@LOCALHOST.COM", "ADMIN", "AQAAAAEAACcQAAAAEJZsI5rcc/1CsgfmZyJOXPmLwu8L1o7iT+h3ku19xZ+5ewJXSnFk7/FVJKchcAyGGw==", null, false, null, 0, "e440ed96-fb66-4779-8a14-2acb0505ab5d", false, 0, "Admin", null, false });
+                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "afb3b3da-e4b8-487c-b271-36910ee41a23", "admin@localhost.com", false, "Admin", "User", false, null, false, "ADMIN@LOCALHOST.COM", "ADMIN", "AQAAAAEAACcQAAAAED5WH5EZ1kMGAWCl1KogI6STU8MCR6w8sRkmi+8BMCa5/0fUvHf1IO7sycrVGmMnPQ==", null, false, null, 0, "fba63b2e-fa95-441b-b7c5-be4f547b74e7", false, 0, "Admin", null, false });
 
             migrationBuilder.InsertData(
                 table: "DailyMeals",

@@ -1,0 +1,166 @@
+﻿@page "/dailyMeals/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@using System.Security.Claims
+@inject NavigationManager _navManager
+
+<h3>Daily Meals</h3>
+
+<br />
+
+@if (_accountStatus == "Staff Account")
+{
+	<EditForm Model="@_userNameSelect" OnValidSubmit="showSpecUser">
+		<DataAnnotationsValidator />
+		<ValidationSummary />
+
+		<div class="form-group">
+			<label>User Name: </label>
+			<div>
+				<InputText @bind-Value="@_userNameSelect" class="form-control" />
+				<ValidationMessage For="@(()=>_userNameSelect)" />
+			</div>
+		</div>
+		<button type="submit" class="btn btn-success btn-block">
+			Set Profile Data
+		</button>
+
+	</EditForm>
+}
+
+<a href="/dailyMeals/create" class="btn btn-secondary">
+	<span class="oi oi-plus"></span>
+	Post Daily Meal
+</a>
+
+<br />
+
+@if (DailyMeals == null)
+{
+	<div class="alert alert-info">Loading daily meal posts..</div>
+}
+else
+{
+	<table class="table table-responsive">
+		<thead>
+			<tr>
+				<th>Poster</th>
+				<th>Meal Description</th>
+				<th>Date Posted</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var dailyMeals in DailyMeals)
+			{
+				if (_isSelect == true)
+				{
+					if (dailyMeals.CreatedBy == _userNameSelect)
+					{
+						<tr>
+							<td>@dailyMeals.CreatedBy</td>
+							<td>@dailyMeals.MealDescription</td>
+							<td>@dailyMeals.MealDate</td>
+							<td><img src="@dailyMeals.MealPhoto" asp-append-version="true" width="300" height="300" /></td>
+							<td>
+								<button class="btn btn-danger" @onclick="@(()=>Delete(dailyMeals.Id))">
+									<span class="oi oi-delete"></span>
+								</button>
+							</td>
+						</tr>
+					}
+				}
+				else
+				{
+					<tr>
+						<td>@dailyMeals.CreatedBy</td>
+						<td>@dailyMeals.MealDescription</td>
+						<td>@dailyMeals.MealDate</td>
+						<td><img src="@dailyMeals.MealPhoto" asp-append-version="true" width="300" height="300" /></td>
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+}
+
+
+@code {
+	private List<DailyMeal> DailyMeals;
+	private List<AppUser> AppUsers;
+	private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
+	private string _userNameSelect;
+	private string _currentUserId;
+	private string _currentUserName;
+	private string _currentUserRole;
+	public string _accountStatus;
+	private bool _isSelect;
+
+	protected async override Task OnInitializedAsync()
+	{
+		DailyMeals = await _client.GetFromJsonAsync<List<DailyMeal>>($"{Endpoints.DailyMealsEndpoints}");
+		AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoints.AccountsEndpoint}");
+		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+		var user = authState.User;
+
+		if (user.Identity.IsAuthenticated)
+		{
+			_claims = user.Claims;
+			//_currentUserName = user.Identity.Name;
+			if (_claims.Count() > 0)
+			{
+				foreach (var claim in _claims)
+				{
+					if (claim.Type == "name")
+					{
+						_currentUserName = claim.Value;
+						continue;
+					}
+					if (claim.Type == "sub")
+					{
+						_currentUserId = claim.Value;
+						continue;
+					}
+				}
+			}
+		}
+		if (_currentUserId != String.Empty)
+		{
+			_currentUserRole = await
+			_client.GetStringAsync($"{Endpoints.AccountsEndpoint}/{_currentUserId}");
+		}
+		@foreach (var appUser in AppUsers)
+		{
+			if (appUser.UserName == _currentUserName)
+			{
+				if (appUser.isStaff == true)
+				{
+					_accountStatus = "Staff Account";
+				}
+				else
+				{
+					_accountStatus = "Regular Account";
+				}
+			}
+		}
+	}
+
+
+	async Task Delete(int mealId)
+	{
+		var dailyMeal = DailyMeals.First(q => q.Id == mealId);
+		var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete your daily meal post?");
+		if (confirm)
+		{
+			await _client.DeleteAsync($"{Endpoints.DailyMealsEndpoints}/{mealId}");
+			await OnInitializedAsync();
+		}
+	}
+
+	async Task showSpecUser()
+	{
+		_isSelect = true;
+		_navManager.NavigateTo("/dailyMeals/");
+	}
+}
