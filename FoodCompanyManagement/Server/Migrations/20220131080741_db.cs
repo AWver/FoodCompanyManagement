@@ -395,19 +395,19 @@ namespace FoodCompanyManagement.Server.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "26374900-7b54-47a7-b766-fd3bcfd9547e", "Administrator", "ADMINISTRATOR" },
-                    { "bd2bcf0c-20db-474f-8407-5a6b159518bb", "edf1fb94-290c-402a-be03-496f9ace911e", "User", "USER" }
+                    { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "ac9aebe8-1152-4d19-a601-09d29555db1c", "Administrator", "ADMINISTRATOR" },
+                    { "bd2bcf0c-20db-474f-8407-5a6b159518bb", "bff44730-e7c9-43ae-afc7-b5d0aa2daa8a", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "MembershipStatus", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfileDataId", "Profile_Id", "SecurityStamp", "TwoFactorEnabled", "UserDiet_Id", "UserName", "User_DietPlanId", "isStaff" },
-                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "ae2c684c-3590-449b-917a-ede756abb3dc", "admin@localhost.com", false, "Admin", "User", false, null, false, "ADMIN@LOCALHOST.COM", "ADMIN", "AQAAAAEAACcQAAAAEMze54bpE3wF4aHVOL1Wn1KOx4B8514dDxfgf1xRwxqevS7W9fWVM4bcQJSq23ob5Q==", null, false, null, 0, "82cbccdf-6186-45ad-8c12-eeb0989d9176", false, 0, "Admin", null, false });
+                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "2d2a206c-6a2b-4c38-8310-409b493bb2dd", "admin@localhost.com", false, "Admin", "User", false, null, false, "ADMIN@LOCALHOST.COM", "ADMIN", "AQAAAAEAACcQAAAAEJZsI5rcc/1CsgfmZyJOXPmLwu8L1o7iT+h3ku19xZ+5ewJXSnFk7/FVJKchcAyGGw==", null, false, null, 0, "e440ed96-fb66-4779-8a14-2acb0505ab5d", false, 0, "Admin", null, false });
 
             migrationBuilder.InsertData(
                 table: "DailyMeals",
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "MealDate", "MealDescription", "MealPhoto", "UpdatedBy", "UserDiet_Id", "User_DietPlanId" },
-                values: new object[] { 1, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 29, 0, 0, 0, 0, DateTimeKind.Local), "Pan-seared Salmon", "URL placed here", null, 1, null });
+                values: new object[] { 1, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 31, 0, 0, 0, 0, DateTimeKind.Local), "Pan-seared Salmon", "URL placed here", null, 1, null });
 
             migrationBuilder.InsertData(
                 table: "DietPlans",
@@ -436,7 +436,7 @@ namespace FoodCompanyManagement.Server.Migrations
             migrationBuilder.InsertData(
                 table: "User_DietPlans",
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "DietEnd", "DietPlanId", "DietStart", "Diet_Id", "UpdatedBy" },
-                values: new object[] { 1, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 29, 0, 0, 0, 0, DateTimeKind.Local), null, new DateTime(2022, 1, 29, 0, 0, 0, 0, DateTimeKind.Local), 1, null });
+                values: new object[] { 1, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 31, 0, 0, 0, 0, DateTimeKind.Local), null, new DateTime(2022, 1, 31, 0, 0, 0, 0, DateTimeKind.Local), 1, null });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

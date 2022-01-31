@@ -16,6 +16,7 @@ namespace FoodCompanyManagement.Client.Model
 		public string UserName { get; set; }
 		public string Id { get; set; }
 		public int Profile_Id { get; set; }
+		public bool isStaff { get; set; }
 	}
 }
 //End of Code

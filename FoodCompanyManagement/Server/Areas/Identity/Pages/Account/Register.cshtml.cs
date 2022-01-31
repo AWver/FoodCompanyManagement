@@ -26,6 +26,8 @@ namespace FoodCompanyManagement.Server.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
 
+        private bool staffChecker = false;
+
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -67,6 +69,11 @@ namespace FoodCompanyManagement.Server.Areas.Identity.Pages.Account
             public string LastName { get; set; }
 
             [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Staff Account Pass")]
+            public string StaffCode { get; set; }
+
+            [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
@@ -90,7 +97,11 @@ namespace FoodCompanyManagement.Server.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.UserName,Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName};
+                if (Input.StaffCode == "5137")
+                {
+                    staffChecker = true;
+                }
+                var user = new ApplicationUser { UserName = Input.UserName,Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName, isStaff = staffChecker};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

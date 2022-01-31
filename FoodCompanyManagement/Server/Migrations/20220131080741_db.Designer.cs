@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodCompanyManagement.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220129145405_db")]
+    [Migration("20220131080741_db")]
     partial class db
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -118,7 +118,7 @@ namespace FoodCompanyManagement.Server.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ae2c684c-3590-449b-917a-ede756abb3dc",
+                            ConcurrencyStamp = "2d2a206c-6a2b-4c38-8310-409b493bb2dd",
                             Email = "admin@localhost.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -127,10 +127,10 @@ namespace FoodCompanyManagement.Server.Migrations
                             MembershipStatus = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMze54bpE3wF4aHVOL1Wn1KOx4B8514dDxfgf1xRwxqevS7W9fWVM4bcQJSq23ob5Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJZsI5rcc/1CsgfmZyJOXPmLwu8L1o7iT+h3ku19xZ+5ewJXSnFk7/FVJKchcAyGGw==",
                             PhoneNumberConfirmed = false,
                             Profile_Id = 0,
-                            SecurityStamp = "82cbccdf-6186-45ad-8c12-eeb0989d9176",
+                            SecurityStamp = "e440ed96-fb66-4779-8a14-2acb0505ab5d",
                             TwoFactorEnabled = false,
                             UserDiet_Id = 0,
                             UserName = "Admin",
@@ -184,7 +184,7 @@ namespace FoodCompanyManagement.Server.Migrations
                             Id = 1,
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            MealDate = new DateTime(2022, 1, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            MealDate = new DateTime(2022, 1, 31, 0, 0, 0, 0, DateTimeKind.Local),
                             MealDescription = "Pan-seared Salmon",
                             MealPhoto = "URL placed here",
                             UserDiet_Id = 1
@@ -483,8 +483,8 @@ namespace FoodCompanyManagement.Server.Migrations
                             Id = 1,
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DietEnd = new DateTime(2022, 1, 29, 0, 0, 0, 0, DateTimeKind.Local),
-                            DietStart = new DateTime(2022, 1, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            DietEnd = new DateTime(2022, 1, 31, 0, 0, 0, 0, DateTimeKind.Local),
+                            DietStart = new DateTime(2022, 1, 31, 0, 0, 0, 0, DateTimeKind.Local),
                             Diet_Id = 1
                         });
                 });
@@ -622,14 +622,14 @@ namespace FoodCompanyManagement.Server.Migrations
                         new
                         {
                             Id = "ad2bcf0c-20db-474f-8407-5a6b159518ba",
-                            ConcurrencyStamp = "26374900-7b54-47a7-b766-fd3bcfd9547e",
+                            ConcurrencyStamp = "ac9aebe8-1152-4d19-a601-09d29555db1c",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "bd2bcf0c-20db-474f-8407-5a6b159518bb",
-                            ConcurrencyStamp = "edf1fb94-290c-402a-be03-496f9ace911e",
+                            ConcurrencyStamp = "bff44730-e7c9-43ae-afc7-b5d0aa2daa8a",
                             Name = "User",
                             NormalizedName = "USER"
                         });
