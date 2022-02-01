@@ -16,6 +16,7 @@ namespace FoodCompanyManagement.Server.Models
 			this.UserName = AppUser.UserName;
 			this.Profile_Id = AppUser.Profile_Id;
 			this.isStaff = AppUser.isStaff;
+			this.UserDiet_Id = AppUser.UserDiet_Id;
 		}
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
@@ -26,6 +27,7 @@ namespace FoodCompanyManagement.Server.Models
 		public string UserName { get; set; }
 		public string Id { get; set; }
 		public int Profile_Id { get; set; }
+		public int UserDiet_Id { get; set; }
 		public bool isStaff { get; set; }
 	}
 }

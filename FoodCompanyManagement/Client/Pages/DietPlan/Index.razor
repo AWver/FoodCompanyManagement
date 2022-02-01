@@ -1,0 +1,15 @@
+﻿@page "/dietPlans/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@using System.Security.Claims
+@inject NavigationManager _navManager
+
+@code {
+	private List<DietPlan> DietPlans;
+	private List<User_DietPlan> User_DietPlans;
+	private List<AppUser> AppUsers;
+	private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
+	
+}
