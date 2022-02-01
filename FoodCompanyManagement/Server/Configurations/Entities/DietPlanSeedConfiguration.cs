@@ -18,7 +18,7 @@ namespace FoodCompanyManagement.Server.Configurations.Entities
 				Id = 1,
 				DietCategory = "Pescatarian",
 				DietWeek = 1,
-				DietReccFoods = "Salmon, Sea bass"
+				DietReccFoods =  "Salmon, Sea bass" 
 			}
 			);
 		}

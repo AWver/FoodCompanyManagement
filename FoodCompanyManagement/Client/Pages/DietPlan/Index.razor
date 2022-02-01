@@ -6,10 +6,67 @@
 @using System.Security.Claims
 @inject NavigationManager _navManager
 
+
+
 @code {
 	private List<DietPlan> DietPlans;
 	private List<User_DietPlan> User_DietPlans;
 	private List<AppUser> AppUsers;
 	private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
-	
+
+	private string _currentUserId;
+	private string _currentUserName;
+	private string _currentUserRole;
+	public string _accountStatus;
+
+	protected async override Task OnInitializedAsync()
+	{
+		DietPlans = await _client.GetFromJsonAsync<List<DietPlan>>($"{Endpoints.DietPlansEndpoint}");
+		User_DietPlans = await _client.GetFromJsonAsync<List<User_DietPlan>>($"{Endpoints.User_DietPlansEndpoint}");
+		AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoints.AccountsEndpoint}");
+		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+		var user = authState.User;
+
+		if (user.Identity.IsAuthenticated)
+		{
+			_claims = user.Claims;
+			//_currentUserName = user.Identity.Name;
+			if (_claims.Count() > 0)
+			{
+				foreach (var claim in _claims)
+				{
+					if (claim.Type == "name")
+					{
+						_currentUserName = claim.Value;
+						continue;
+					}
+					if (claim.Type == "sub")
+					{
+						_currentUserId = claim.Value;
+						continue;
+					}
+				}
+			}
+		}
+		if (_currentUserId != String.Empty)
+		{
+			_currentUserRole = await
+			_client.GetStringAsync($"{Endpoints.AccountsEndpoint}/{_currentUserId}");
+		}
+		@foreach (var appUser in AppUsers)
+		{
+			if (appUser.UserName == _currentUserName)
+			{
+				if (appUser.isStaff == true)
+				{
+					_accountStatus = "Staff Account";
+				}
+				else
+				{
+					_accountStatus = "Regular Account";
+				}
+			}
+		}
+	}
+
 }
