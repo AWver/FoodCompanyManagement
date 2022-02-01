@@ -19,22 +19,33 @@
 		<div class="form-group">
 			<label>User Name: </label>
 			<div>
-				<InputText @bind-Value="@_userNameSelect" class="form-control" />
-				<ValidationMessage For="@(()=>_userNameSelect)" />
+				<InputText @bind-Value="@_userNameSelect.userName" class="form-control" />
+				<ValidationMessage For="@(() => _userNameSelect.userName)" />
 			</div>
 		</div>
 		<button type="submit" class="btn btn-success btn-block">
-			Set Profile Data
+			Set User to view
 		</button>
 
 	</EditForm>
+
+	<br />
+
+	<a class="btn btn-secondary" @onclick ="@(() => Reset())">
+		<span class="oi oi-plus"></span>
+		Reset
+	</a>
 }
+
+<br />
+<br />
 
 <a href="/dailyMeals/create" class="btn btn-secondary">
 	<span class="oi oi-plus"></span>
 	Post Daily Meal
 </a>
 
+<br />
 <br />
 
 @if (DailyMeals == null)
@@ -56,7 +67,7 @@ else
 			{
 				if (_isSelect == true)
 				{
-					if (dailyMeals.CreatedBy == _userNameSelect)
+					if (dailyMeals.CreatedBy == _userNameSelect.userName)
 					{
 						<tr>
 							<td>@dailyMeals.CreatedBy</td>
@@ -90,7 +101,11 @@ else
 	private List<DailyMeal> DailyMeals;
 	private List<AppUser> AppUsers;
 	private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
-	private string _userNameSelect;
+	UserNameSelect _userNameSelect = new UserNameSelect();
+	public class UserNameSelect
+	{
+		public string userName { get; set; } = "none";
+	}
 	private string _currentUserId;
 	private string _currentUserName;
 	private string _currentUserRole;
@@ -156,6 +171,12 @@ else
 			await _client.DeleteAsync($"{Endpoints.DailyMealsEndpoints}/{mealId}");
 			await OnInitializedAsync();
 		}
+	}
+
+	async Task Reset()
+	{
+		_isSelect = false;
+		_navManager.NavigateTo("/dailyMeals/");
 	}
 
 	async Task showSpecUser()
