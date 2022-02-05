@@ -8,16 +8,96 @@
 
 
 
+@if (_accountStatus == "Staff Account")
+{
+	<EditForm Model="@_userNameSelect" OnValidSubmit="showSpecUser">
+		<DataAnnotationsValidator />
+		<ValidationSummary />
+
+		<div class="form-group">
+			<label>User Name: </label>
+			<div>
+				<InputText @bind-Value="@_userNameSelect.userName" class="form-control" />
+				<ValidationMessage For="@(() => _userNameSelect.userName)" />
+			</div>
+		</div>
+		<button type="submit" class="btn btn-success btn-block">
+			Set User to view
+		</button>
+
+	</EditForm>
+
+	<br />
+
+	<a class="btn btn-secondary" @onclick="@(() => Reset())">
+		<span class="oi oi-plus"></span>
+		Reset
+	</a>
+}
+
+<br />
+
+@if (DietPlans == null)
+{
+	<div class="alert alert-info">Loading diet plans..</div>
+}
+else
+{
+	<table class="table table-responsive">
+		<thead>
+			<tr>
+				<th>User</th>
+				<th>Diet Week</th>
+				<th>Recommended foods</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var dietPlans in DietPlans)
+			{
+				if (_isSelect == true)
+				{
+					if (dietPlans.CreatedBy == _userNameSelect.userName)
+					{
+						<tr>
+							<td>@dietPlans.CreatedBy</td>
+							<td>@dietPlans.DietWeek</td>
+							<td>@dietPlans.DietReccFoods</td>
+							<td>
+								<button class="btn btn-danger" @onclick="@(()=>Delete(dietPlans.Id))">
+									<span class="oi oi-delete"></span>
+								</button>
+							</td>
+						</tr>
+					}
+				}
+				else
+				{
+					<tr>
+						<td>@dietPlans.CreatedBy</td>
+						<td>@dietPlans.DietWeek</td>
+						<td>@dietPlans.DietReccFoods</td>
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+}
+
 @code {
 	private List<DietPlan> DietPlans;
 	private List<User_DietPlan> User_DietPlans;
 	private List<AppUser> AppUsers;
 	private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
-
+	UserNameSelect _userNameSelect = new UserNameSelect();
+	public class UserNameSelect
+	{
+		public string userName { get; set; } = "none";
+	}
 	private string _currentUserId;
 	private string _currentUserName;
 	private string _currentUserRole;
 	public string _accountStatus;
+	private bool _isSelect;
 
 	protected async override Task OnInitializedAsync()
 	{
@@ -67,6 +147,17 @@
 				}
 			}
 		}
+	}
+	async Task Reset()
+	{
+		_isSelect = false;
+		_navManager.NavigateTo("/dailyMeals/");
+	}
+
+	async Task showSpecUser()
+	{
+		_isSelect = true;
+		_navManager.NavigateTo("/dailyMeals/");
 	}
 
 }
