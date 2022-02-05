@@ -112,9 +112,13 @@
 				dietPlan.DietCategory = option.dietCat;
 			}
 		}
-		dietPlan.MealDate = DateTime.Today;
+		uDietPlan.DietStart = DateTime.Today;
+		uDietPlan.DietEnd = DateTime.Today.AddDays(28);
+		uDietPlan.Diet_Id = dietPlan.Id;
+		int Weeks = (uDietPlan.DietEnd.DayOfYear - uDietPlan.DietStart.DayOfYear)/7;
+		dietPlan.DietWeek = Weeks;
 		await _client.PostAsJsonAsync(Endpoints.DietPlansEndpoint, dietPlan);
-		_navManager.NavigateTo("/dailyMeals/");
+		_navManager.NavigateTo("/dietPlans/");
 	}
 
 }

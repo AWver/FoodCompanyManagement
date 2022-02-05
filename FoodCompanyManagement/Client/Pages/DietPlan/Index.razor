@@ -36,6 +36,15 @@
 }
 
 <br />
+<br />
+
+<a href="/dietPlans/create" class="btn btn-secondary">
+	<span class="oi oi-plus"></span>
+	Post Daily Meal
+</a>
+
+<br />
+<br />
 
 @if (DietPlans == null)
 {
@@ -72,13 +81,18 @@ else
 				}
 				else
 				{
-					<tr>
-						<td>@dietPlans.CreatedBy</td>
-						<td>@dietPlans.DietWeek</td>
-						<td>@dietPlans.DietReccFoods</td>
-					</tr>
+			 <tr>
+				<td>@dietPlans.CreatedBy</td>
+				<td>@dietPlans.DietWeek</td>
+				<td>@dietPlans.DietReccFoods</td>
+				<td>
+					<button class="btn btn-danger" @onclick="@(()=>Delete(dietPlans.Id))">
+						<span class="oi oi-delete"></span>
+					</button>
+				</td>
+			 </tr>
 				}
-			}
+			 }
 		</tbody>
 	</table>
 }
@@ -146,6 +160,17 @@ else
 					_accountStatus = "Regular Account";
 				}
 			}
+		}
+	}
+	async Task Delete(int planId)
+	{
+		var dietPlan = DietPlans.First(q => q.Id == planId);
+		var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete your diet plan?");
+		if (confirm)
+		{
+			await _client.DeleteAsync($"{Endpoints.DietPlansEndpoint}/{planId}");
+			await _client.DeleteAsync($"{Endpoints.User_DietPlansEndpoint}/{planId}");
+			await OnInitializedAsync();
 		}
 	}
 	async Task Reset()
