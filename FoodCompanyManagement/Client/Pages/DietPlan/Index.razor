@@ -40,7 +40,7 @@
 
 <a href="/dietPlans/create" class="btn btn-secondary">
 	<span class="oi oi-plus"></span>
-	Post Daily Meal
+	Create a diet plan
 </a>
 
 <br />
@@ -76,6 +76,9 @@ else
 								<td>@dietPlans.DietReccFoods</td>
 								<td>@dietPlans.DietCategory</td>
 								<td>
+									<a href="/dietPlans/edit/@dietPlans.Id" class="btn btn-warning">
+										<span class="oi oi-pencil"></span>
+									</a>
 									<button class="btn btn-danger" @onclick="@(() => Delete(dietPlans.Id))">
 										<span class="oi oi-delete"></span>
 									</button>
@@ -91,6 +94,9 @@ else
 							<td>@dietPlans.DietReccFoods</td>
 							<td>@dietPlans.DietCategory</td>
 							<td>
+								<a href="/dietPlans/edit/@dietPlans.Id" class="btn btn-warning">
+									<span class="oi oi-pencil"></span>
+								</a>
 								<button class="btn btn-danger" @onclick="@(()=>Delete(dietPlans.Id))">
 									<span class="oi oi-delete"></span>
 								</button>

@@ -28,17 +28,14 @@
 {
 	[Parameter] public int id { get; set; }
 	DietPlan dietPlan = new DietPlan();
-	public string currentReccFoods;
 
 	protected async override Task OnParametersSetAsync()
 	{
 		dietPlan = await _client.GetFromJsonAsync<DietPlan>($"{Endpoints.DietPlansEndpoint}/{id}");
-		currentReccFoods = dietPlan.DietReccFoods;
 	}
 
 	async Task EditDietPlan()
 	{
-		dietPlan.DietReccFoods = currentReccFoods + "," + dietPlan.DietReccFoods;
 		await _client.PutAsJsonAsync<DietPlan>($"{Endpoints.DietPlansEndpoint}/{id}",dietPlan);
 		_navManager.NavigateTo("/dietPlans/");
 	}
