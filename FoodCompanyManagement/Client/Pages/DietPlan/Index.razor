@@ -58,6 +58,7 @@ else
 				<th>User</th>
 				<th>Diet Week</th>
 				<th>Recommended foods</th>
+				<th>Diet Category</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -71,6 +72,7 @@ else
 							<td>@dietPlans.CreatedBy</td>
 							<td>@dietPlans.DietWeek</td>
 							<td>@dietPlans.DietReccFoods</td>
+							<td>@dietPlans.DietCategory</td>
 							<td>
 								<button class="btn btn-danger" @onclick="@(()=>Delete(dietPlans.Id))">
 									<span class="oi oi-delete"></span>
@@ -85,6 +87,7 @@ else
 				<td>@dietPlans.CreatedBy</td>
 				<td>@dietPlans.DietWeek</td>
 				<td>@dietPlans.DietReccFoods</td>
+				 <td>@dietPlans.DietCategory</td>
 				<td>
 					<button class="btn btn-danger" @onclick="@(()=>Delete(dietPlans.Id))">
 						<span class="oi oi-delete"></span>

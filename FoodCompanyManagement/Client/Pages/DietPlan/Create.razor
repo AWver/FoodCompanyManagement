@@ -10,29 +10,21 @@
 
 <br />
 
-<EditForm Model="@dietPlan" OnValidSubmit="CreatePlanData">
+<EditForm Model="@_survey" OnValidSubmit="CreatePlanData">
 	<DataAnnotationsValidator />
 	<ValidationSummary />
 
 	<div class="form-group">
-		<label>What does your main meal consist of? </label>
+		<label>What do your meals primarily consist of? </label>
 		<div>
-			<InputSelect @bind-Value="@_survey.q1" class="form-control">
-				<option value="">-- Select Restriction --</option>
-				<option value="@_survey.q1">Fish</option>
-				<option value="@_survey.q1">Vegetables</option>
-			</InputSelect>
+			<InputText @bind-Value="@_survey.q1" class="form-control" />
 			<ValidationMessage For="@(() => _survey.q1)" />
 		</div>
 	</div>
 	<div class="form-group">
-		<label>Are you able to consume diary? </label>
+		<label>Are you able to consume diary products? </label>
 		<div>
-			<InputSelect @bind-Value="@_survey.q2" class="form-control">
-				<option value="">-- Select Restriction --</option>
-				<option value="@_survey.q2">Yes</option>
-				<option value="@_survey.q2">No</option>
-			</InputSelect>
+			<InputText @bind-Value="@_survey.q2" class="form-control" />
 			<ValidationMessage For="@(() => _survey.q2)" />
 		</div>
 	</div>
@@ -47,6 +39,8 @@
 	private List<ProfileData> ProfileDatas;
 	DietPlan dietPlan = new DietPlan();
 	User_DietPlan uDietPlan = new User_DietPlan();
+
+	int[] curWeekArr = new int[] { 4, 3, 2, 1 };
 
 	private List<AppUser> AppUsers;
 	private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
@@ -97,17 +91,17 @@
 
 	public class DietOptions
 	{
-		public string profDataRestriction { get; set; }
+		public string profData { get; set; }
 		public string q1 { get; set; }
 		public string q2 { get; set; }
 		public string dietCat { get; set; }
 	}
 
-	private async Task CreatePlanData()
+	async Task CreatePlanData()
 	{
 		foreach (var option in options)
 		{
-			if (option.q1 == _survey.q1 && option.q2 == _survey.q2 && option.profDataRestriction == _currentProfData.DietRestriction)
+			if ((_survey.q1.ToLower()).Contains(option.q1.ToLower()) && (_survey.q2.ToLower()).Contains(option.q2.ToLower()) && (option.profData == _currentProfData.DietRestriction))
 			{
 				dietPlan.DietCategory = option.dietCat;
 			}
@@ -116,7 +110,8 @@
 		uDietPlan.DietEnd = DateTime.Today.AddDays(28);
 		uDietPlan.Diet_Id = dietPlan.Id;
 		int Weeks = (uDietPlan.DietEnd.DayOfYear - uDietPlan.DietStart.DayOfYear)/7;
-		dietPlan.DietWeek = Weeks;
+		dietPlan.DietWeek = curWeekArr[Weeks - 1];
+		await _client.PostAsJsonAsync(Endpoints.User_DietPlansEndpoint, uDietPlan);
 		await _client.PostAsJsonAsync(Endpoints.DietPlansEndpoint, dietPlan);
 		_navManager.NavigateTo("/dietPlans/");
 	}
