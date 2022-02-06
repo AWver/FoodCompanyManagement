@@ -73,7 +73,7 @@ else
 							<tr>
 								<td>@dietPlans.CreatedBy</td>
 								<td>@dietPlans.DietWeek</td>
-								<td></td>
+								<td>@dietPlans.DietReccFoods</td>
 								<td>@dietPlans.DietCategory</td>
 								<td>
 									<button class="btn btn-danger" @onclick="@(() => Delete(dietPlans.Id))">
@@ -101,12 +101,12 @@ else
 				else if (dietPlans.CreatedBy == _currentUserName)
 				{
 					<tr>
-						<td>@_currDietPlan.CreatedBy</td>
-						<td>@_currDietPlan.DietWeek</td>
-						<td>@_currDietPlan.DietReccFoods</td>
-						<td>@_currDietPlan.DietCategory</td>
+						<td>@dietPlans.CreatedBy</td>
+						<td>@dietPlans.DietWeek</td>
+						<td>@dietPlans.DietReccFoods</td>
+						<td>@dietPlans.DietCategory</td>
 						<td>
-							<button class="btn btn-danger" @onclick="@(()=>Delete(_currDietPlan.Id))">
+							<button class="btn btn-danger" @onclick="@(()=>Delete(dietPlans.Id))">
 								<span class="oi oi-delete"></span>
 							</button>
 						</td>
@@ -131,15 +131,7 @@ else
 	private string _currentUserName;
 	private string _currentUserRole;
 	public string _accountStatus;
-	private DietPlan _currDietPlan;
 	private bool _isSelect;
-	FoodList _pescFoods = new FoodList();
-	FoodList _vegeFoods = new FoodList();
-	public class FoodList
-	{
-		public string category { get; set; } = "none";
-		public string[] foodList { get; set; }
-	}
 
 	protected async override Task OnInitializedAsync()
 	{
@@ -148,10 +140,6 @@ else
 		AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoints.AccountsEndpoint}");
 		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
 		var user = authState.User;
-		_pescFoods.category = "Pescetarian";
-		_vegeFoods.category = "Vegetarian";
-		_pescFoods.foodList =  new string[] { "Salmon,Cod","Lentils,Chickpeas,Sotong","Tofu,Herring","Bluefin Tuna,Mackerel"};
-		_vegeFoods.foodList = new string[] { "Non-fat yogurt", "Spinach,Avocado", "Asparagus,Broccoli", "Tomatoes,Carrots,Quinoa" };
 		if (user.Identity.IsAuthenticated)
 		{
 			_claims = user.Claims;
@@ -189,21 +177,6 @@ else
 				else
 				{
 					_accountStatus = "Regular Account";
-				}
-			}
-		}
-		@foreach (var dietPlans in DietPlans)
-		{
-			if (dietPlans.CreatedBy == _currentUserName)
-			{
-				_currDietPlan = dietPlans;
-				if (_currDietPlan.DietCategory == "Pescetarian")
-				{
-					_currDietPlan.DietReccFoods = _pescFoods.foodList[_currDietPlan.DietWeek - 1];
-				}
-				else if (_currDietPlan.DietCategory == "Vegetarian")
-				{
-					_currDietPlan.DietReccFoods = _vegeFoods.foodList[_currDietPlan.DietWeek - 1];
 				}
 			}
 		}
