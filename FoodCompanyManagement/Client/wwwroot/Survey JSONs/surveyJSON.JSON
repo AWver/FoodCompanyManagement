@@ -1,0 +1,14 @@
+[
+	{
+		"profData":"Muslim",
+		"q1":"Fish",
+		"q2":"No",
+		"dietCat":"Pescetarian"
+	},
+	{
+		"profData":"Buddhist",
+		"q1":"Vegetables",
+		"q2":"Yes",
+		"dietCat":"Vegetarian"
+	}
+]

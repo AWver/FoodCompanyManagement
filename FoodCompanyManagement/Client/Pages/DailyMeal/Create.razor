@@ -1,0 +1,44 @@
+﻿@page "/dailyMeals/create"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>Post your daily meal!</h3>
+
+<br />
+
+<EditForm Model="@dailyMeal" OnValidSubmit="CreateMealData">
+	<DataAnnotationsValidator />
+	<ValidationSummary />
+
+	<div class="form-group">
+		<label>Meal Description: </label>
+		<div>
+			<InputText @bind-Value="@dailyMeal.MealDescription" class="form-control" />
+			<ValidationMessage For="@(()=>dailyMeal.MealDescription)" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label>Photo of your meal: </label>
+		<div>
+			<InputText @bind-Value="@dailyMeal.MealPhoto" class="form-control" />
+			<ValidationMessage For="@(()=>dailyMeal.MealPhoto)" />
+		</div>
+	</div>
+
+	<button type="submit" class="btn btn-success btn-block">
+		Post Daily Meal
+	</button>
+
+</EditForm>
+
+@code {
+	DailyMeal dailyMeal = new DailyMeal();
+
+	private async Task CreateMealData()
+	{
+		dailyMeal.MealDate = DateTime.Today;
+		await _client.PostAsJsonAsync(Endpoints.DailyMealsEndpoints, dailyMeal);
+		_navManager.NavigateTo("/dailyMeals/");
+	}
+
+}

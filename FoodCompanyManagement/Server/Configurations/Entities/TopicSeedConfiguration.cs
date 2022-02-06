@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FoodCompanyManagement.Server.Models;
+using FoodCompanyManagement.Shared.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -18,8 +18,7 @@ namespace FoodCompanyManagement.Server.Configurations.Entities
 				Id = 1,
 				IsMembership = true,
 				TopicDesc = "Does Whey Protein have any side effects on health?",
-				TopicName = "Whey Protein",
-				User_Id = 1
+				TopicName = "Whey Protein"
 			}
 			);
 		}

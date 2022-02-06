@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodCompanyManagement.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220116115544_newDbAppUser")]
-    partial class newDbAppUser
+    [Migration("20220201134056_db")]
+    partial class db
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -52,6 +52,9 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<bool>("MembershipStatus")
+                        .HasColumnType("bit");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -69,21 +72,30 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("ProfileDataId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Profile_Id")
+                        .HasColumnType("int");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserDiet_Id")
                         .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<int>("User_ID")
+                    b.Property<int?>("User_DietPlanId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("isStaff")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -95,17 +107,52 @@ namespace FoodCompanyManagement.Server.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ProfileDataId");
+
+                    b.HasIndex("User_DietPlanId");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e828d736-4008-4886-a57f-5acb9c959fe5",
+                            Email = "admin@localhost.com",
+                            EmailConfirmed = false,
+                            FirstName = "Admin",
+                            LastName = "User",
+                            LockoutEnabled = false,
+                            MembershipStatus = false,
+                            NormalizedEmail = "ADMIN@LOCALHOST.COM",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPPp3mDIkNnpudaqqnFVCIglKtMPyW8bs90UCR5WT3B8kCYENo7RGxCiWfdDm0TouQ==",
+                            PhoneNumberConfirmed = false,
+                            Profile_Id = 0,
+                            SecurityStamp = "aff62c7a-b236-4e40-a999-4b6b94021492",
+                            TwoFactorEnabled = false,
+                            UserDiet_Id = 0,
+                            UserName = "Admin",
+                            isStaff = false
+                        });
                 });
 
-            modelBuilder.Entity("FoodCompanyManagement.Server.Models.DailyMeal", b =>
+            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.DailyMeal", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("MealDate")
                         .HasColumnType("datetime2");
@@ -114,6 +161,9 @@ namespace FoodCompanyManagement.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MealPhoto")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserDiet_Id")
@@ -127,14 +177,35 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.HasIndex("User_DietPlanId");
 
                     b.ToTable("DailyMeals");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MealDate = new DateTime(2022, 2, 1, 0, 0, 0, 0, DateTimeKind.Local),
+                            MealDescription = "Pan-seared Salmon",
+                            MealPhoto = "URL placed here",
+                            UserDiet_Id = 1
+                        });
                 });
 
-            modelBuilder.Entity("FoodCompanyManagement.Server.Models.DietPlan", b =>
+            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.DietPlan", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DietCategory")
                         .HasColumnType("nvarchar(max)");
@@ -145,6 +216,9 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.Property<int>("DietWeek")
                         .HasColumnType("int");
 
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("DietPlans");
@@ -153,18 +227,29 @@ namespace FoodCompanyManagement.Server.Migrations
                         new
                         {
                             Id = 1,
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DietCategory = "Pescatarian",
                             DietReccFoods = "Salmon, Sea bass",
                             DietWeek = 1
                         });
                 });
 
-            modelBuilder.Entity("FoodCompanyManagement.Server.Models.Post", b =>
+            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.Post", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PostDesc")
                         .HasColumnType("nvarchar(max)");
@@ -178,32 +263,50 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.Property<int>("Topic_Id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Users_Id")
-                        .HasColumnType("int");
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TopicId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Posts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PostDesc = "Not entirely certain whether Whey Protein will have any detrimental side effects. I am taking it after every gym session, will there be any issues?",
+                            Poster = "Amir_Weaver",
+                            Topic_Id = 1
+                        });
                 });
 
-            modelBuilder.Entity("FoodCompanyManagement.Server.Models.ProfileData", b =>
+            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.ProfileData", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("DietRestriction")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("Weight")
@@ -212,9 +315,31 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProfileDatas");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = "Amir_Weaver",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DietRestriction = "Muslim",
+                            Gender = "Male",
+                            Weight = 65f
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = "Yu_Sheng",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DietRestriction = "Buddhist",
+                            Gender = "Female",
+                            Weight = 82f
+                        });
                 });
 
-            modelBuilder.Entity("FoodCompanyManagement.Server.Models.Topic", b =>
+            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.Topic", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -223,6 +348,15 @@ namespace FoodCompanyManagement.Server.Migrations
 
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsMembership")
                         .HasColumnType("bit");
@@ -233,27 +367,42 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.Property<string>("TopicName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("User_Id")
-                        .HasColumnType("int");
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Topics");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsMembership = true,
+                            TopicDesc = "Does Whey Protein have any side effects on health?",
+                            TopicName = "Whey Protein"
+                        });
                 });
 
-            modelBuilder.Entity("FoodCompanyManagement.Server.Models.User", b =>
+            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("MembershipStatus")
                         .HasColumnType("bit");
@@ -266,6 +415,9 @@ namespace FoodCompanyManagement.Server.Migrations
 
                     b.Property<int>("Profile_Id")
                         .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserDiet_Id")
                         .HasColumnType("int");
@@ -288,12 +440,21 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("FoodCompanyManagement.Server.Models.User_DietPlan", b =>
+            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.User_DietPlan", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DietEnd")
                         .HasColumnType("datetime2");
@@ -307,11 +468,25 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.Property<int>("Diet_Id")
                         .HasColumnType("int");
 
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DietPlanId");
 
                     b.ToTable("User_DietPlans");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DietEnd = new DateTime(2022, 2, 1, 0, 0, 0, 0, DateTimeKind.Local),
+                            DietStart = new DateTime(2022, 2, 1, 0, 0, 0, 0, DateTimeKind.Local),
+                            Diet_Id = 1
+                        });
                 });
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
@@ -442,6 +617,22 @@ namespace FoodCompanyManagement.Server.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ad2bcf0c-20db-474f-8407-5a6b159518ba",
+                            ConcurrencyStamp = "47290ad8-6e30-4fa6-bcde-68f561bafe0f",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "bd2bcf0c-20db-474f-8407-5a6b159518bb",
+                            ConcurrencyStamp = "27ecc6ba-0d98-47d4-a676-8e5c9bb47227",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -529,6 +720,13 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "3781efa7-66dc-47f0-860f-e506d04102e4",
+                            RoleId = "ad2bcf0c-20db-474f-8407-5a6b159518ba"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -554,57 +752,11 @@ namespace FoodCompanyManagement.Server.Migrations
 
             modelBuilder.Entity("FoodCompanyManagement.Server.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("FoodCompanyManagement.Server.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("FoodCompanyManagement.Server.Models.DailyMeal", b =>
-                {
-                    b.HasOne("FoodCompanyManagement.Server.Models.User_DietPlan", "User_DietPlan")
-                        .WithMany()
-                        .HasForeignKey("User_DietPlanId");
-
-                    b.Navigation("User_DietPlan");
-                });
-
-            modelBuilder.Entity("FoodCompanyManagement.Server.Models.Post", b =>
-                {
-                    b.HasOne("FoodCompanyManagement.Server.Models.Topic", "Topic")
-                        .WithMany()
-                        .HasForeignKey("TopicId");
-
-                    b.HasOne("FoodCompanyManagement.Server.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Topic");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("FoodCompanyManagement.Server.Models.Topic", b =>
-                {
-                    b.HasOne("FoodCompanyManagement.Server.Models.ApplicationUser", null)
-                        .WithMany("Topics")
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("FoodCompanyManagement.Server.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("FoodCompanyManagement.Server.Models.User", b =>
-                {
-                    b.HasOne("FoodCompanyManagement.Server.Models.ProfileData", "ProfileData")
+                    b.HasOne("FoodCompanyManagement.Shared.Domain.ProfileData", "ProfileData")
                         .WithMany()
                         .HasForeignKey("ProfileDataId");
 
-                    b.HasOne("FoodCompanyManagement.Server.Models.User_DietPlan", "User_DietPlan")
+                    b.HasOne("FoodCompanyManagement.Shared.Domain.User_DietPlan", "User_DietPlan")
                         .WithMany()
                         .HasForeignKey("User_DietPlanId");
 
@@ -613,9 +765,49 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.Navigation("User_DietPlan");
                 });
 
-            modelBuilder.Entity("FoodCompanyManagement.Server.Models.User_DietPlan", b =>
+            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.DailyMeal", b =>
                 {
-                    b.HasOne("FoodCompanyManagement.Server.Models.DietPlan", "DietPlan")
+                    b.HasOne("FoodCompanyManagement.Shared.Domain.User_DietPlan", "User_DietPlan")
+                        .WithMany()
+                        .HasForeignKey("User_DietPlanId");
+
+                    b.Navigation("User_DietPlan");
+                });
+
+            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.Post", b =>
+                {
+                    b.HasOne("FoodCompanyManagement.Shared.Domain.Topic", "Topic")
+                        .WithMany()
+                        .HasForeignKey("TopicId");
+
+                    b.Navigation("Topic");
+                });
+
+            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.Topic", b =>
+                {
+                    b.HasOne("FoodCompanyManagement.Server.Models.ApplicationUser", null)
+                        .WithMany("Topics")
+                        .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.User", b =>
+                {
+                    b.HasOne("FoodCompanyManagement.Shared.Domain.ProfileData", "ProfileData")
+                        .WithMany()
+                        .HasForeignKey("ProfileDataId");
+
+                    b.HasOne("FoodCompanyManagement.Shared.Domain.User_DietPlan", "User_DietPlan")
+                        .WithMany()
+                        .HasForeignKey("User_DietPlanId");
+
+                    b.Navigation("ProfileData");
+
+                    b.Navigation("User_DietPlan");
+                });
+
+            modelBuilder.Entity("FoodCompanyManagement.Shared.Domain.User_DietPlan", b =>
+                {
+                    b.HasOne("FoodCompanyManagement.Shared.Domain.DietPlan", "DietPlan")
                         .WithMany()
                         .HasForeignKey("DietPlanId");
 

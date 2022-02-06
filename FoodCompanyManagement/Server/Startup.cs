@@ -1,10 +1,13 @@
 using System.Linq;
 using FoodCompanyManagement.Server.Data;
+using FoodCompanyManagement.Server.IRepository;
 using FoodCompanyManagement.Server.Models;
+using FoodCompanyManagement.Server.Repository;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -33,6 +36,7 @@ namespace FoodCompanyManagement.Server
 			services.AddDatabaseDeveloperPageExceptionFilter();
 
 			services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+				.AddRoles<IdentityRole>()
 				.AddEntityFrameworkStores<ApplicationDbContext>();
 
 			services.AddIdentityServer()
@@ -40,6 +44,8 @@ namespace FoodCompanyManagement.Server
 
 			services.AddAuthentication()
 				.AddIdentityServerJwt();
+
+			services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 			services.AddControllersWithViews();
 			services.AddRazorPages();

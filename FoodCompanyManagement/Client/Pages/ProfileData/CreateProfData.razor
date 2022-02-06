@@ -1,0 +1,58 @@
+﻿@page "/profData/create"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>CreateProfData</h3>
+
+<br />
+
+<EditForm Model="@profData" OnValidSubmit="CreateProfileData">
+	<DataAnnotationsValidator />
+	<ValidationSummary />
+
+	<div class="form-group">
+		<label>Gender: </label>
+		<div>
+			<InputSelect @bind-Value="@profData.Gender" class="form-control">
+				<option value="">-- Select Restriction --</option>
+				<option value="@profData.Gender">Male</option>
+				<option value="@profData.Gender">Female</option>
+			</InputSelect>
+			<ValidationMessage For="@(()=>profData.Gender)" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label>Weight: </label>
+		<div>
+			<InputNumber @bind-Value="@profData.Weight" class="form-control" />
+			<ValidationMessage For="@(()=>profData.Weight)" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label>Diet Restriction: </label>
+		<div>
+			<InputSelect @bind-Value="@profData.DietRestriction" class="form-control">
+				<option value="">-- Select Restriction --</option>
+				<option value="@profData.DietRestriction">Muslim</option>
+				<option value="@profData.DietRestriction">Buddhist</option>
+			</InputSelect>
+			<ValidationMessage For="@(()=>profData.DietRestriction)" />
+		</div>
+	</div>
+
+	<button type="submit" class="btn btn-success btn-block">
+		Set Profile Data
+	</button>
+
+</EditForm>
+
+@code {
+	ProfileData profData = new ProfileData();
+
+	private async Task CreateProfileData()
+	{
+		await _client.PostAsJsonAsync(Endpoints.ProfileDatasEndpoint, profData);
+		_navManager.NavigateTo("/startupinit/");
+	}
+
+}

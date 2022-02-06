@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FoodCompanyManagement.Server.Models;
+using FoodCompanyManagement.Shared.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -18,7 +18,7 @@ namespace FoodCompanyManagement.Server.Configurations.Entities
 				Id = 1,
 				DietCategory = "Pescatarian",
 				DietWeek = 1,
-				DietReccFoods = "Salmon, Sea bass"
+				DietReccFoods =  "Salmon, Sea bass" 
 			}
 			);
 		}

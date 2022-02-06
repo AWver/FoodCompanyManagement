@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FoodCompanyManagement.Server.Migrations
 {
-    public partial class newDbAppUser : Migration
+    public partial class db : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,7 +48,11 @@ namespace FoodCompanyManagement.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DietCategory = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DietWeek = table.Column<int>(type: "int", nullable: false),
-                    DietReccFoods = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    DietReccFoods = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -83,7 +87,11 @@ namespace FoodCompanyManagement.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DietRestriction = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Weight = table.Column<float>(type: "real", nullable: false)
+                    Weight = table.Column<float>(type: "real", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -120,7 +128,11 @@ namespace FoodCompanyManagement.Server.Migrations
                     DietStart = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DietEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Diet_Id = table.Column<int>(type: "int", nullable: false),
-                    DietPlanId = table.Column<int>(type: "int", nullable: true)
+                    DietPlanId = table.Column<int>(type: "int", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -129,6 +141,51 @@ namespace FoodCompanyManagement.Server.Migrations
                         name: "FK_User_DietPlans_DietPlans_DietPlanId",
                         column: x => x.DietPlanId,
                         principalTable: "DietPlans",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MembershipStatus = table.Column<bool>(type: "bit", nullable: false),
+                    UserDiet_Id = table.Column<int>(type: "int", nullable: false),
+                    User_DietPlanId = table.Column<int>(type: "int", nullable: true),
+                    Profile_Id = table.Column<int>(type: "int", nullable: false),
+                    ProfileDataId = table.Column<int>(type: "int", nullable: true),
+                    isStaff = table.Column<bool>(type: "bit", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_ProfileDatas_ProfileDataId",
+                        column: x => x.ProfileDataId,
+                        principalTable: "ProfileDatas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_User_DietPlans_User_DietPlanId",
+                        column: x => x.User_DietPlanId,
+                        principalTable: "User_DietPlans",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -143,7 +200,11 @@ namespace FoodCompanyManagement.Server.Migrations
                     MealPhoto = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MealDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserDiet_Id = table.Column<int>(type: "int", nullable: false),
-                    User_DietPlanId = table.Column<int>(type: "int", nullable: true)
+                    User_DietPlanId = table.Column<int>(type: "int", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -169,7 +230,11 @@ namespace FoodCompanyManagement.Server.Migrations
                     UserDiet_Id = table.Column<int>(type: "int", nullable: false),
                     User_DietPlanId = table.Column<int>(type: "int", nullable: true),
                     Profile_Id = table.Column<int>(type: "int", nullable: false),
-                    ProfileDataId = table.Column<int>(type: "int", nullable: true)
+                    ProfileDataId = table.Column<int>(type: "int", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -184,41 +249,6 @@ namespace FoodCompanyManagement.Server.Migrations
                         name: "FK_User_User_DietPlans_User_DietPlanId",
                         column: x => x.User_DietPlanId,
                         principalTable: "User_DietPlans",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    User_ID = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -317,9 +347,11 @@ namespace FoodCompanyManagement.Server.Migrations
                     IsMembership = table.Column<bool>(type: "bit", nullable: false),
                     TopicDesc = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TopicName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    User_Id = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -328,12 +360,6 @@ namespace FoodCompanyManagement.Server.Migrations
                         name: "FK_Topics_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Topics_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -346,10 +372,12 @@ namespace FoodCompanyManagement.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Poster = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PostDesc = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Users_Id = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true),
                     Topic_Id = table.Column<int>(type: "int", nullable: false),
-                    TopicId = table.Column<int>(type: "int", nullable: true)
+                    TopicId = table.Column<int>(type: "int", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -360,18 +388,60 @@ namespace FoodCompanyManagement.Server.Migrations
                         principalTable: "Topics",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Posts_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "47290ad8-6e30-4fa6-bcde-68f561bafe0f", "Administrator", "ADMINISTRATOR" },
+                    { "bd2bcf0c-20db-474f-8407-5a6b159518bb", "27ecc6ba-0d98-47d4-a676-8e5c9bb47227", "User", "USER" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "MembershipStatus", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfileDataId", "Profile_Id", "SecurityStamp", "TwoFactorEnabled", "UserDiet_Id", "UserName", "User_DietPlanId", "isStaff" },
+                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "e828d736-4008-4886-a57f-5acb9c959fe5", "admin@localhost.com", false, "Admin", "User", false, null, false, "ADMIN@LOCALHOST.COM", "ADMIN", "AQAAAAEAACcQAAAAEPPp3mDIkNnpudaqqnFVCIglKtMPyW8bs90UCR5WT3B8kCYENo7RGxCiWfdDm0TouQ==", null, false, null, 0, "aff62c7a-b236-4e40-a999-4b6b94021492", false, 0, "Admin", null, false });
+
+            migrationBuilder.InsertData(
+                table: "DailyMeals",
+                columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "MealDate", "MealDescription", "MealPhoto", "UpdatedBy", "UserDiet_Id", "User_DietPlanId" },
+                values: new object[] { 1, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 2, 1, 0, 0, 0, 0, DateTimeKind.Local), "Pan-seared Salmon", "URL placed here", null, 1, null });
+
+            migrationBuilder.InsertData(
                 table: "DietPlans",
-                columns: new[] { "Id", "DietCategory", "DietReccFoods", "DietWeek" },
-                values: new object[] { 1, "Pescatarian", "Salmon, Sea bass", 1 });
+                columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "DietCategory", "DietReccFoods", "DietWeek", "UpdatedBy" },
+                values: new object[] { 1, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pescatarian", "Salmon, Sea bass", 1, null });
+
+            migrationBuilder.InsertData(
+                table: "Posts",
+                columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "PostDesc", "Poster", "TopicId", "Topic_Id", "UpdatedBy" },
+                values: new object[] { 1, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Not entirely certain whether Whey Protein will have any detrimental side effects. I am taking it after every gym session, will there be any issues?", "Amir_Weaver", null, 1, null });
+
+            migrationBuilder.InsertData(
+                table: "ProfileDatas",
+                columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "DietRestriction", "Gender", "UpdatedBy", "Weight" },
+                values: new object[,]
+                {
+                    { 1, "Amir_Weaver", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Muslim", "Male", null, 65f },
+                    { 2, "Yu_Sheng", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Buddhist", "Female", null, 82f }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Topics",
+                columns: new[] { "Id", "ApplicationUserId", "CreatedBy", "DateCreated", "DateUpdated", "IsMembership", "TopicDesc", "TopicName", "UpdatedBy" },
+                values: new object[] { 1, null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "Does Whey Protein have any side effects on health?", "Whey Protein", null });
+
+            migrationBuilder.InsertData(
+                table: "User_DietPlans",
+                columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "DietEnd", "DietPlanId", "DietStart", "Diet_Id", "UpdatedBy" },
+                values: new object[] { 1, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 2, 1, 0, 0, 0, 0, DateTimeKind.Local), null, new DateTime(2022, 2, 1, 0, 0, 0, 0, DateTimeKind.Local), 1, null });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "3781efa7-66dc-47f0-860f-e506d04102e4" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -406,9 +476,14 @@ namespace FoodCompanyManagement.Server.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_UserId",
+                name: "IX_AspNetUsers_ProfileDataId",
                 table: "AspNetUsers",
-                column: "UserId");
+                column: "ProfileDataId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_User_DietPlanId",
+                table: "AspNetUsers",
+                column: "User_DietPlanId");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -454,19 +529,9 @@ namespace FoodCompanyManagement.Server.Migrations
                 column: "TopicId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_UserId",
-                table: "Posts",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Topics_ApplicationUserId",
                 table: "Topics",
                 column: "ApplicationUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Topics_UserId",
-                table: "Topics",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_ProfileDataId",
@@ -514,6 +579,9 @@ namespace FoodCompanyManagement.Server.Migrations
                 name: "Posts");
 
             migrationBuilder.DropTable(
+                name: "User");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -521,9 +589,6 @@ namespace FoodCompanyManagement.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "User");
 
             migrationBuilder.DropTable(
                 name: "ProfileDatas");

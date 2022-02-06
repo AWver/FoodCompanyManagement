@@ -1,30 +1,61 @@
-﻿@using Microsoft.AspNetCore.Components.Authorization
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using System.Security.Claims
+﻿@page "/accounts/"
 @inject HttpClient _client
+@attribute [Authorize]
+@using System.Security.Claims
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
-@inject NavigationManager Navigation
-@inject SignOutSessionStateManager SignOutManager
+<h3>App Users</h3>
 
-<AuthorizeView>
-	<Authorized>
-		<a href="authentication/profile">Hello, @context.User.Identity.Name, @_accountStatus!</a>
-		<button class="nav-link btn btn-link" @onclick="BeginSignOut">Log out</button>
-	</Authorized>
-	<NotAuthorized>
-		<a href="authentication/register">Register</a>
-		<a href="authentication/login">Log in</a>
-	</NotAuthorized>
-</AuthorizeView>
+@if (_claims.Count() > 0)
+{
+	<ul>
+		@foreach (var claim in _claims)
+		{
+			<li>@claim.Type: @claim.Value</li>
+		}
+	</ul>
+}
 
-@code{
+<p>Id: @_currentUserId</p>
+<p>Name: @_currentUserName</p>
+<p>Role: @_currentUserRole</p>
+
+@if (AppUsers == null)
+{
+	<div class="alert alert‐info">Loading Accounts...</div>
+}
+else
+{
+	<table class="table table‐responsive">
+		<thead>
+			<tr>
+				<th>Account Id</th>
+				<th>Email</th>
+				<th>User Name</th>
+				<th>First Name</th>
+				<th>Last Name</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var appUser in AppUsers)
+			{
+				<tr>
+					<td>@appUser.Id</td>
+					<td>@appUser.Email</td>
+					<td>@appUser.UserName</td>
+					<td>@appUser.FirstName</td>
+					<td>@appUser.LastName</td>
+				</tr>
+		   }
+		</tbody>
+	</table>
+}
+@code {
 	private List<AppUser> AppUsers;
 	private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
 	private string _currentUserId;
 	private string _currentUserName;
 	private string _currentUserRole;
-	public string _accountStatus;
 	protected async override Task OnInitializedAsync()
 	{
 		AppUsers = await
@@ -58,25 +89,5 @@
 			_currentUserRole = await
 			_client.GetStringAsync($"{Endpoints.AccountsEndpoint}/{_currentUserId}");
 		}
-		@foreach (var appUser in AppUsers)
-		{
-			if (appUser.UserName == _currentUserName)
-			{
-				if (appUser.isStaff == true)
-				{
-					_accountStatus = "Staff Account";
-				}
-				else
-				{
-					_accountStatus = "Regular Account";
-				}
-			}
-		}
-		}
-
-		private async Task BeginSignOut(MouseEventArgs args)
-		{
-			await SignOutManager.SetSignOutState();
-			Navigation.NavigateTo("authentication/logout");
-		}
+	}
 }

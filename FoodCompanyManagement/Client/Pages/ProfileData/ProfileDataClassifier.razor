@@ -1,0 +1,95 @@
+﻿@page "/startupinit/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@using System.Security.Claims
+
+@if (ProfileDatas == null)
+{
+	<div class="alert alert-info">Loading your profile's data..</div>
+}
+else
+{
+	<table class="table table-responsive">
+		<thead>
+			<tr>
+				<th>Gender</th>
+				<th>Diet Restrictions</th>
+				<th>Weight</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var profileData in ProfileDatas)
+			{
+				@if (profileData.CreatedBy == _currentUserName)
+				{
+					<tr>
+						<td>@profileData.Gender</td>
+						<td>@profileData.DietRestriction</td>
+						<td>@profileData.Weight</td>
+						<td>
+							<a href="/profileDatas/view/@profileData.Id" class="btn btn-primary">
+								<span class="oi oi-book"></span>
+							</a>
+							<a href="/profileDatas/edit/@profileData.Id" class="btn btn-warning">
+								<span class="oi oi-pencil"></span>
+							</a>
+							<button class="btn btn-danger" @onclick="@(()=>Delete(profileData.Id))">
+								<span class="oi oi-delete"></span>
+							</button>
+						</td>
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+}
+
+
+@code {
+	private List<ProfileData> ProfileDatas;
+	private List<AppUser> AppUsers;
+	private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
+	private string _currentUserName;
+
+	protected async override Task OnInitializedAsync()
+	{
+		ProfileDatas = await _client.GetFromJsonAsync<List<ProfileData>>($"{Endpoints.ProfileDatasEndpoint}");
+		AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoints.AccountsEndpoint}");
+		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+		var user = authState.User;
+
+		if (user.Identity.IsAuthenticated)
+		{
+			_claims = user.Claims;
+			//_currentUserName = user.Identity.Name;
+			if (_claims.Count() > 0)
+			{
+				foreach (var claim in _claims)
+				{
+					if (claim.Type == "name")
+					{
+						_currentUserName = claim.Value;
+						continue;
+					}
+				}
+			}
+		}
+
+
+	}
+
+
+	async Task Delete(int profileId)
+	{
+		var profileData = ProfileDatas.First(q => q.Id == profileId);
+		var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete your profile data?");
+		if (confirm)
+		{
+			await _client.DeleteAsync($"{Endpoints.ProfileDatasEndpoint}/{profileId}");
+			await OnInitializedAsync();
+		}
+	}
+}

@@ -1,0 +1,188 @@
+﻿@page "/dietPlans/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@using System.Security.Claims
+@inject NavigationManager _navManager
+
+
+
+@if (_accountStatus == "Staff Account")
+{
+	<EditForm Model="@_userNameSelect" OnValidSubmit="showSpecUser">
+		<DataAnnotationsValidator />
+		<ValidationSummary />
+
+		<div class="form-group">
+			<label>User Name: </label>
+			<div>
+				<InputText @bind-Value="@_userNameSelect.userName" class="form-control" />
+				<ValidationMessage For="@(() => _userNameSelect.userName)" />
+			</div>
+		</div>
+		<button type="submit" class="btn btn-success btn-block">
+			Set User to view
+		</button>
+
+	</EditForm>
+
+	<br />
+
+	<a class="btn btn-secondary" @onclick="@(() => Reset())">
+		<span class="oi oi-plus"></span>
+		Reset
+	</a>
+}
+
+<br />
+<br />
+
+<a href="/dietPlans/create" class="btn btn-secondary">
+	<span class="oi oi-plus"></span>
+	Post Daily Meal
+</a>
+
+<br />
+<br />
+
+@if (DietPlans == null)
+{
+	<div class="alert alert-info">Loading diet plans..</div>
+}
+else
+{
+	<table class="table table-responsive">
+		<thead>
+			<tr>
+				<th>User</th>
+				<th>Diet Week</th>
+				<th>Recommended foods</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var dietPlans in DietPlans)
+			{
+				if (_isSelect == true)
+				{
+					if (dietPlans.CreatedBy == _userNameSelect.userName)
+					{
+						<tr>
+							<td>@dietPlans.CreatedBy</td>
+							<td>@dietPlans.DietWeek</td>
+							<td>@dietPlans.DietReccFoods</td>
+							<td>
+								<button class="btn btn-danger" @onclick="@(()=>Delete(dietPlans.Id))">
+									<span class="oi oi-delete"></span>
+								</button>
+							</td>
+						</tr>
+					}
+				}
+				else
+				{
+			 <tr>
+				<td>@dietPlans.CreatedBy</td>
+				<td>@dietPlans.DietWeek</td>
+				<td>@dietPlans.DietReccFoods</td>
+				<td>
+					<button class="btn btn-danger" @onclick="@(()=>Delete(dietPlans.Id))">
+						<span class="oi oi-delete"></span>
+					</button>
+				</td>
+			 </tr>
+				}
+			 }
+		</tbody>
+	</table>
+}
+
+@code {
+	private List<DietPlan> DietPlans;
+	private List<User_DietPlan> User_DietPlans;
+	private List<AppUser> AppUsers;
+	private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
+	UserNameSelect _userNameSelect = new UserNameSelect();
+	public class UserNameSelect
+	{
+		public string userName { get; set; } = "none";
+	}
+	private string _currentUserId;
+	private string _currentUserName;
+	private string _currentUserRole;
+	public string _accountStatus;
+	private bool _isSelect;
+
+	protected async override Task OnInitializedAsync()
+	{
+		DietPlans = await _client.GetFromJsonAsync<List<DietPlan>>($"{Endpoints.DietPlansEndpoint}");
+		User_DietPlans = await _client.GetFromJsonAsync<List<User_DietPlan>>($"{Endpoints.User_DietPlansEndpoint}");
+		AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoints.AccountsEndpoint}");
+		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+		var user = authState.User;
+
+		if (user.Identity.IsAuthenticated)
+		{
+			_claims = user.Claims;
+			//_currentUserName = user.Identity.Name;
+			if (_claims.Count() > 0)
+			{
+				foreach (var claim in _claims)
+				{
+					if (claim.Type == "name")
+					{
+						_currentUserName = claim.Value;
+						continue;
+					}
+					if (claim.Type == "sub")
+					{
+						_currentUserId = claim.Value;
+						continue;
+					}
+				}
+			}
+		}
+		if (_currentUserId != String.Empty)
+		{
+			_currentUserRole = await
+			_client.GetStringAsync($"{Endpoints.AccountsEndpoint}/{_currentUserId}");
+		}
+		@foreach (var appUser in AppUsers)
+		{
+			if (appUser.UserName == _currentUserName)
+			{
+				if (appUser.isStaff == true)
+				{
+					_accountStatus = "Staff Account";
+				}
+				else
+				{
+					_accountStatus = "Regular Account";
+				}
+			}
+		}
+	}
+	async Task Delete(int planId)
+	{
+		var dietPlan = DietPlans.First(q => q.Id == planId);
+		var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete your diet plan?");
+		if (confirm)
+		{
+			await _client.DeleteAsync($"{Endpoints.DietPlansEndpoint}/{planId}");
+			await _client.DeleteAsync($"{Endpoints.User_DietPlansEndpoint}/{planId}");
+			await OnInitializedAsync();
+		}
+	}
+	async Task Reset()
+	{
+		_isSelect = false;
+		_navManager.NavigateTo("/dailyMeals/");
+	}
+
+	async Task showSpecUser()
+	{
+		_isSelect = true;
+		_navManager.NavigateTo("/dailyMeals/");
+	}
+
+}

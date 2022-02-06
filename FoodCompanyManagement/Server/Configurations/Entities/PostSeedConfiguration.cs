@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FoodCompanyManagement.Server.Models;
+using FoodCompanyManagement.Shared.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -18,7 +18,6 @@ namespace FoodCompanyManagement.Server.Configurations.Entities
 				Id = 1,
 				Poster = "Amir_Weaver",
 				PostDesc = "Not entirely certain whether Whey Protein will have any detrimental side effects. I am taking it after every gym session, will there be any issues?",
-				Users_Id = 1,
 				Topic_Id = 1
 			}
 			);
