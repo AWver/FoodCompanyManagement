@@ -64,9 +64,26 @@ else
 		<tbody>
 			@foreach (var dietPlans in DietPlans)
 			{
-				if (_isSelect == true)
+				if (_accountStatus == "Staff Account")
 				{
-					if (dietPlans.CreatedBy == _userNameSelect.userName)
+					if (_isSelect == true)
+					{
+						if (dietPlans.CreatedBy == _userNameSelect.userName)
+						{
+							<tr>
+								<td>@dietPlans.CreatedBy</td>
+								<td>@dietPlans.DietWeek</td>
+								<td>@dietPlans.DietReccFoods</td>
+								<td>@dietPlans.DietCategory</td>
+								<td>
+									<button class="btn btn-danger" @onclick="@(() => Delete(dietPlans.Id))">
+										<span class="oi oi-delete"></span>
+									</button>
+								</td>
+							</tr>
+						}
+					}
+					else
 					{
 						<tr>
 							<td>@dietPlans.CreatedBy</td>
@@ -81,21 +98,21 @@ else
 						</tr>
 					}
 				}
-				else
+				else if (dietPlans.CreatedBy == _currentUserName)
 				{
-			 <tr>
-				<td>@dietPlans.CreatedBy</td>
-				<td>@dietPlans.DietWeek</td>
-				<td>@dietPlans.DietReccFoods</td>
-				 <td>@dietPlans.DietCategory</td>
-				<td>
-					<button class="btn btn-danger" @onclick="@(()=>Delete(dietPlans.Id))">
-						<span class="oi oi-delete"></span>
-					</button>
-				</td>
-			 </tr>
+					<tr>
+						<td>@dietPlans.CreatedBy</td>
+						<td>@dietPlans.DietWeek</td>
+						<td>@dietPlans.DietReccFoods</td>
+						<td>@dietPlans.DietCategory</td>
+						<td>
+							<button class="btn btn-danger" @onclick="@(()=>Delete(dietPlans.Id))">
+								<span class="oi oi-delete"></span>
+							</button>
+						</td>
+					</tr>
 				}
-			 }
+			}
 		</tbody>
 	</table>
 }
@@ -115,6 +132,13 @@ else
 	private string _currentUserRole;
 	public string _accountStatus;
 	private bool _isSelect;
+	FoodList _pescFoods = new FoodList();
+	FoodList _vegeFoods = new FoodList();
+	public class FoodList
+	{
+		public string category { get; set; } = "none";
+		public String[] foodList { get; set; }
+	}
 
 	protected async override Task OnInitializedAsync()
 	{
@@ -123,7 +147,10 @@ else
 		AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoints.AccountsEndpoint}");
 		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
 		var user = authState.User;
-
+		_pescFoods.category = "Pescetarian";
+		_vegeFoods.category = "Vegetarian";
+		_pescFoods.foodList =  new string[] { "Salmon,Cod","Lentils,Chickpeas,Sotong","Tofu,Herring","Bluefin Tuna,Mackerel"};
+		_vegeFoods.foodList = new string[] { "Non-fat yogurt", "Spinach,Avocado", "Asparagus,Broccoli", "Tomatoes,Carrots,Quinoa" };	
 		if (user.Identity.IsAuthenticated)
 		{
 			_claims = user.Claims;
@@ -179,13 +206,13 @@ else
 	async Task Reset()
 	{
 		_isSelect = false;
-		_navManager.NavigateTo("/dailyMeals/");
+		_navManager.NavigateTo("/dietPlans/");
 	}
 
 	async Task showSpecUser()
 	{
 		_isSelect = true;
-		_navManager.NavigateTo("/dailyMeals/");
+		_navManager.NavigateTo("/dietPlans/");
 	}
 
 }
