@@ -33,21 +33,43 @@
 	</style>
 </head>
 <body>
-	<h1>What would you like to do?</h1>
+    <h1>What would you like to do?</h1>
 
-	<div class="btn-group">
-		<center> <button class="button" onclick="window.location.href='Survey.html'">Click here to take survey</button> </center>
-		&nbsp;
-	</div>
-	<div class="btn-group">
 
-		<center> <button class="button" onclick="window.location.href='Forums.html'">Click here to browse forums</button></center>
-		&nbsp;
-	</div>
-	<div class="btn-group">
-		<center><button class="button" onclick="window.location.href='Premium.html'">Click here to find out more and sign up for the premium memberships</button></center>
-		&nbsp;
-	</div>
+
+    @*<div class="btn-group">
+            <center> <button class="button" onclick="window.location.href='Survey.html'">Click here to take survey</button> </center>
+            &nbsp;
+        </div>
+        <div class="btn-group">
+
+            <center> <button class="button" onclick="window.location.href='Forums.html'">Click here to browse forums</button></center>
+            &nbsp;
+        </div>
+        <div class="btn-group">
+            <center><button class="button" onclick="window.location.href='Premium.html'">Click here to find out more and sign up for the premium memberships</button></center>
+            &nbsp;
+        </div>*@
+    <div class="btn-group">
+        <NavLink class="nav-link" href="survey">
+            <span class="oi oi-list-rich" aria-hidden="true"></span> Surveys
+        </NavLink>
+            &nbsp;
+        </div>
+        <div class="btn-group">
+
+            <NavLink class="nav-link" href="forums">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Forums
+            </NavLink>
+            &nbsp;
+        </div>
+        <div class="btn-group">
+            <NavLink class="nav-link" href="premium">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Premiums
+            </NavLink>
+            &nbsp;
+        </div>
+
 
 
 
