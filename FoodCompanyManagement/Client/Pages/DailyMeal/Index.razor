@@ -5,6 +5,8 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @using System.Security.Claims
 @inject NavigationManager _navManager
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 <h3>Daily Meals</h3>
 
@@ -31,7 +33,7 @@
 
 	<br />
 
-	<a class="btn btn-secondary" @onclick ="@(() => Reset())">
+	<a class="btn btn-secondary" @onclick="@(() => Reset())">
 		<span class="oi oi-plus"></span>
 		Reset
 	</a>
@@ -114,6 +116,7 @@ else
 
 	protected async override Task OnInitializedAsync()
 	{
+		_interceptor.MonitorEvent();
 		DailyMeals = await _client.GetFromJsonAsync<List<DailyMeal>>($"{Endpoints.DailyMealsEndpoints}");
 		AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoints.AccountsEndpoint}");
 		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -159,6 +162,11 @@ else
 				}
 			}
 		}
+	}
+
+	public void Dispose()
+	{
+		_interceptor.DisposeEvent();
 	}
 
 
