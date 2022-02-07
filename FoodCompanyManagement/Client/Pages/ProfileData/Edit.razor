@@ -1,0 +1,39 @@
+﻿@page "/profileDatas/edit/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+@inject IJSRuntime js
+@attribute [Authorize]
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@using System.Security.Claims
+
+<EditForm Model="@profData" OnValidSubmit="EditProfileData">
+	<DataAnnotationsValidator />
+	<ValidationSummary />
+	<div class="form-group">
+		<label>Weight: </label>
+		<div>
+			<InputNumber @bind-Value="@profData.Weight" class="form-control" />
+			<ValidationMessage For="@(()=>profData.Weight)" />
+		</div>
+	</div>
+	<button type="submit" class="btn btn-success btn-block">
+		Update
+	</button>
+	<BackToList Target="profileDatas" />
+</EditForm>
+
+	@code {
+		[Parameter] public int id { get; set; }
+		ProfileData profData = new ProfileData();
+
+		protected async override Task OnParametersSetAsync()
+		{
+			profData = await _client.GetFromJsonAsync<ProfileData>($"{Endpoints.ProfileDatasEndpoint}/{id}");
+		}
+
+		async Task EditProfileData()
+		{
+			await _client.PutAsJsonAsync<ProfileData>($"{Endpoints.ProfileDatasEndpoint}/{id}", profData);
+			_navManager.NavigateTo("/profileDatas/");
+		}
+	}

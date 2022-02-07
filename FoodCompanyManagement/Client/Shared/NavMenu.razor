@@ -1,32 +1,59 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using System.Security.Claims
+@inject HttpClient _client
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 @inject NavigationManager Navigation
 @inject SignOutSessionStateManager SignOutManager
 
 
 <div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">FoodCompanyManagement</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+	<a class="navbar-brand" href="">Food Company Management</a>
+	<button class="navbar-toggler" @onclick="ToggleNavMenu">
+		<span class="navbar-toggler-icon"></span>
+	</button>
 </div>
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
 	<ul class="nav flex-column">
+		<AuthorizeView>
+			<Authorized>
+				<li class="nav-item px-3">
+					<NavLink class="nav-link" href="authentication/profile" Match="NavLinkMatch.All">
+						<span class="oi oi-person" aria-hidden="true"></span>
+						@context.User.Identity.Name, @_accountStatus!
+					</NavLink>
+				</li>
+				<li class="nav-item px-3">
+					<NavLink class="nav-link" href="#" @onclick="BeginSignOut"
+							 Match="NavLinkMatch.All">
+						<span class="oi oi-account-logout" aria-hidden="true"></span>
+						Log out
+					</NavLink>
+				</li>
+			</Authorized>
+			<NotAuthorized>
+				<li class="nav-item px-3">
+					<NavLink class="nav-link" href="authentication/profile" Match="NavLinkMatch.All">
+						<span class="oi oi-person" aria-hidden="true"></span> Register
+					</NavLink>
+				</li>
+				<li class="nav-item px-3">
+					<NavLink class="nav-link" href="authentication/profile" Match="NavLinkMatch.All">
+						<span class="oi oi-account-login" aria-hidden="true"></span> Login
+					</NavLink>
+				</li>
+			</NotAuthorized>
+		</AuthorizeView>
 		<li class="nav-item px-3">
 			<NavLink class="nav-link" href="" Match="NavLinkMatch.All">
 				<span class="oi oi-home" aria-hidden="true"></span> Home
 			</NavLink>
 		</li>
 		<li class="nav-item px-3">
-			<NavLink class="nav-link" href="navmenu">
-				<span class="oi oi-list-rich" aria-hidden="true"></span> Navigation Menu
-			</NavLink>
-		</li>
-		<li class="nav-item px-3">
 			<NavLink class="nav-link" href="dailyMeals">
-				<span class="oi oi-list-rich" aria-hidden="true"></span> Daily Meals
+				<span class="oi oi-plus" aria-hidden="true"></span> Daily Meals
 			</NavLink>
 		</li>
 		<li class="nav-item px-3">
@@ -41,23 +68,81 @@
 		</li>
 		<li class="nav-item px-3">
 			<NavLink class="nav-link" href="premium">
-				<span class="oi oi-list-rich" aria-hidden="true"></span> Premiums
+				<span class="oi oi-list-rich" aria-hidden="true"></span> Premium
 			</NavLink>
 		</li>
-		<li class="nav‐item px‐3">
-			<NavLink class="nav‐link" href="accounts">
-				<span class="oi oi‐list-rich" aria‐hidden="true"></span> Accounts
-			</NavLink>
-		</li>
-		<li class="nav‐item px‐3">
-			<NavLink class="nav‐link" href="startupinit">
-				<span class="oi oi‐list-rich" aria‐hidden="true"></span> Profile Datas
+		@if (@_accountStatus == "staff")
+		{
+			<li class="nav-item px-3">
+				<NavLink class="nav-link" href="accounts">
+					<span class="oi oi-list-rich" aria-hidden="true"></span> Accounts
+				</NavLink>
+			</li>
+		}
+		<li class="nav-item px-3">
+			<NavLink class="nav-link" href="profileDatas">
+				<span class="oi oi-list-rich" aria-hidden="true"></span> Profile Datas
 			</NavLink>
 		</li>
 	</ul>
 </div>
 
 @code {
+	private List<AppUser> AppUsers;
+	private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
+	private string _currentUserId;
+	private string _currentUserName;
+	private string _currentUserRole;
+	public string _accountStatus;
+	protected async override Task OnInitializedAsync()
+	{
+		AppUsers = await
+		_client.GetFromJsonAsync<List<AppUser>>($"{Endpoints.AccountsEndpoint}");
+		var authState = await
+		AuthenticationStateProvider.GetAuthenticationStateAsync();
+		var user = authState.User;
+		if (user.Identity.IsAuthenticated)
+		{
+			_claims = user.Claims;
+			//_currentUserName = user.Identity.Name;
+			if (_claims.Count() > 0)
+			{
+				foreach (var claim in _claims)
+				{
+					if (claim.Type == "sub")
+					{
+						_currentUserId = claim.Value;
+						continue;
+					}
+					if (claim.Type == "name")
+					{
+						_currentUserName = claim.Value;
+						continue;
+					}
+				}
+			}
+		}
+		if (_currentUserId != String.Empty)
+		{
+			_currentUserRole = await
+			_client.GetStringAsync($"{Endpoints.AccountsEndpoint}/{_currentUserId}");
+		}
+		@foreach (var appUser in AppUsers)
+		{
+			if (appUser.UserName == _currentUserName)
+			{
+				if (appUser.isStaff == true)
+				{
+					_accountStatus = "staff";
+				}
+				else
+				{
+					_accountStatus = "regular";
+				}
+			}
+		}
+	}
+
 	private bool collapseNavMenu = true;
 
 	private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;

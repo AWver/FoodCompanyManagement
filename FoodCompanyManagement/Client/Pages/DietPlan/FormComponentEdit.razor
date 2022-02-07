@@ -1,0 +1,23 @@
+﻿<EditForm Model="@dietPlan" OnValidSubmit="@OnValidSubmit">
+	<DataAnnotationsValidator />
+	<ValidationSummary />
+
+	<div class="form-group">
+		<label>What foods will you add on? </label>
+		<div>
+			<InputText @bind-Value="@dietPlan.DietReccFoods" class="form-control" />
+			<ValidationMessage For="@(() => dietPlan.DietReccFoods)" />
+		</div>
+	</div>
+
+	<button type="submit" class="btn btn-success btn-block">
+		@ButtonText
+	</button>
+	<BackToList Target="dietPlans" />
+</EditForm>
+
+@code {
+	[Parameter] public DietPlan dietPlan { get; set; }
+	[Parameter] public string ButtonText { get; set; } = "Save";
+	[Parameter] public EventCallback OnValidSubmit { get; set; }
+}

@@ -6,23 +6,8 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @using System.Security.Claims
 
-<EditForm Model="@dietPlan" OnValidSubmit="EditDietPlan">
-	<DataAnnotationsValidator />
-	<ValidationSummary />
 
-	<div class="form-group">
-		<label>What foods will you add on? </label>
-		<div>
-			<InputText @bind-Value="@dietPlan.DietReccFoods" class="form-control" />
-			<ValidationMessage For="@(() => dietPlan.DietReccFoods)" />
-		</div>
-	</div>
-
-	<button type="submit" class="btn btn-success btn-block">
-		Update
-	</button>
-
-</EditForm>
+<FormComponentEdit ButtonText="Update" dietPlan="dietPlan" OnValidSubmit="@EditDietPlan" />
 
 @code
 {
