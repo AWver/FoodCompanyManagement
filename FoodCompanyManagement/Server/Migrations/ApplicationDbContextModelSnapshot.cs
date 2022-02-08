@@ -116,7 +116,7 @@ namespace FoodCompanyManagement.Server.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3303cad5-aa27-448c-90a5-15115be5373d",
+                            ConcurrencyStamp = "49889de7-f343-4e5e-9326-d0fadd80d865",
                             Email = "admin@localhost.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -125,10 +125,10 @@ namespace FoodCompanyManagement.Server.Migrations
                             MembershipStatus = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEA+hKeEkTEHvRZRsupI9CaRBHtkLeESW088NHzc0RM9bubOr/vp4HCc/5eqd3spFTA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIvcv/54upwcDQkPAXa2tTntCPBYy2TDuvfs2+OqFDcTAY/OXS1KWRLpDPAfL/SWkg==",
                             PhoneNumberConfirmed = false,
                             Profile_Id = 0,
-                            SecurityStamp = "9ded8b0c-f464-4e69-9e1f-622cec37057d",
+                            SecurityStamp = "5743a618-163e-43a4-b1ac-4b80626678ef",
                             TwoFactorEnabled = false,
                             UserDiet_Id = 0,
                             UserName = "Admin",
@@ -156,9 +156,11 @@ namespace FoodCompanyManagement.Server.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("MealDescription")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MealPhoto")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdatedBy")
@@ -184,7 +186,7 @@ namespace FoodCompanyManagement.Server.Migrations
                             DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MealDate = new DateTime(2022, 2, 8, 0, 0, 0, 0, DateTimeKind.Local),
                             MealDescription = "Pan-seared Salmon",
-                            MealPhoto = "URL placed here",
+                            MealPhoto = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.mos.cms.futurecdn.net%2FrqoDpnCCrdpGFHM6qky3rS-1200-80.jpg&f=1&nofb=1",
                             UserDiet_Id = 1
                         });
                 });
@@ -206,9 +208,11 @@ namespace FoodCompanyManagement.Server.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DietCategory")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DietReccFoods")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DietWeek")
@@ -620,14 +624,14 @@ namespace FoodCompanyManagement.Server.Migrations
                         new
                         {
                             Id = "ad2bcf0c-20db-474f-8407-5a6b159518ba",
-                            ConcurrencyStamp = "29dc2508-1b01-4fc8-b338-058a30e82d03",
+                            ConcurrencyStamp = "c9b08f43-3319-4ae1-a2c6-fb3341d08938",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "bd2bcf0c-20db-474f-8407-5a6b159518bb",
-                            ConcurrencyStamp = "b01fcf20-4c95-4615-ae0a-9b9fd4104651",
+                            ConcurrencyStamp = "0152a1b4-97d7-423b-b92f-2a69d9365a24",
                             Name = "User",
                             NormalizedName = "USER"
                         });

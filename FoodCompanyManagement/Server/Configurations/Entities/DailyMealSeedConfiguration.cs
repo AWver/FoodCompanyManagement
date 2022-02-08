@@ -17,7 +17,7 @@ namespace FoodCompanyManagement.Server.Configurations.Entities
 			{
 				Id = 1,
 				MealDescription = "Pan-seared Salmon",
-				MealPhoto = "URL placed here",
+				MealPhoto = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.mos.cms.futurecdn.net%2FrqoDpnCCrdpGFHM6qky3rS-1200-80.jpg&f=1&nofb=1",
 				MealDate = DateTime.Today,
 				UserDiet_Id = 1
 			}

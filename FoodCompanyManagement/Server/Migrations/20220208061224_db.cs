@@ -46,9 +46,9 @@ namespace FoodCompanyManagement.Server.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DietCategory = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DietCategory = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DietWeek = table.Column<int>(type: "int", nullable: false),
-                    DietReccFoods = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DietReccFoods = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -196,8 +196,8 @@ namespace FoodCompanyManagement.Server.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MealDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MealPhoto = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MealDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MealPhoto = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MealDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserDiet_Id = table.Column<int>(type: "int", nullable: false),
                     User_DietPlanId = table.Column<int>(type: "int", nullable: true),
@@ -395,19 +395,19 @@ namespace FoodCompanyManagement.Server.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "29dc2508-1b01-4fc8-b338-058a30e82d03", "Administrator", "ADMINISTRATOR" },
-                    { "bd2bcf0c-20db-474f-8407-5a6b159518bb", "b01fcf20-4c95-4615-ae0a-9b9fd4104651", "User", "USER" }
+                    { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "c9b08f43-3319-4ae1-a2c6-fb3341d08938", "Administrator", "ADMINISTRATOR" },
+                    { "bd2bcf0c-20db-474f-8407-5a6b159518bb", "0152a1b4-97d7-423b-b92f-2a69d9365a24", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "MembershipStatus", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfileDataId", "Profile_Id", "SecurityStamp", "TwoFactorEnabled", "UserDiet_Id", "UserName", "User_DietPlanId", "isStaff" },
-                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "3303cad5-aa27-448c-90a5-15115be5373d", "admin@localhost.com", false, "Admin", "User", false, null, false, "ADMIN@LOCALHOST.COM", "ADMIN", "AQAAAAEAACcQAAAAEA+hKeEkTEHvRZRsupI9CaRBHtkLeESW088NHzc0RM9bubOr/vp4HCc/5eqd3spFTA==", null, false, null, 0, "9ded8b0c-f464-4e69-9e1f-622cec37057d", false, 0, "Admin", null, false });
+                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "49889de7-f343-4e5e-9326-d0fadd80d865", "admin@localhost.com", false, "Admin", "User", false, null, false, "ADMIN@LOCALHOST.COM", "ADMIN", "AQAAAAEAACcQAAAAEIvcv/54upwcDQkPAXa2tTntCPBYy2TDuvfs2+OqFDcTAY/OXS1KWRLpDPAfL/SWkg==", null, false, null, 0, "5743a618-163e-43a4-b1ac-4b80626678ef", false, 0, "Admin", null, false });
 
             migrationBuilder.InsertData(
                 table: "DailyMeals",
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "MealDate", "MealDescription", "MealPhoto", "UpdatedBy", "UserDiet_Id", "User_DietPlanId" },
-                values: new object[] { 1, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 2, 8, 0, 0, 0, 0, DateTimeKind.Local), "Pan-seared Salmon", "URL placed here", null, 1, null });
+                values: new object[] { 1, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 2, 8, 0, 0, 0, 0, DateTimeKind.Local), "Pan-seared Salmon", "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.mos.cms.futurecdn.net%2FrqoDpnCCrdpGFHM6qky3rS-1200-80.jpg&f=1&nofb=1", null, 1, null });
 
             migrationBuilder.InsertData(
                 table: "DietPlans",

@@ -14,7 +14,7 @@
 	private async Task CreateProfileData()
 	{
 		await _client.PostAsJsonAsync(Endpoints.ProfileDatasEndpoint, profData);
-		_navManager.NavigateTo("/startupinit/");
+		_navManager.NavigateTo("/profileDatas/");
 	}
 
 }

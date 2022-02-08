@@ -58,6 +58,7 @@ else
 		<thead>
 			<tr>
 				<th>Poster</th>
+				<th>Account Status</th>
 				<th>Post Description</th>
 				<th>Date Posted</th>
 			</tr>
@@ -73,6 +74,7 @@ else
 						{
 							<tr>
 								<td>@posts.CreatedBy</td>
+								<td>@_accountStatus</td>
 								<td>@posts.PostDesc</td>
 								<td>@posts.PostDate</td>
 
@@ -88,6 +90,7 @@ else
 					{
 						<tr>
 							<td>@posts.CreatedBy</td>
+							<td>@_accountStatus</td>
 							<td>@posts.PostDesc</td>
 							<td>@posts.PostDate</td>
 

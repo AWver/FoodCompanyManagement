@@ -52,11 +52,13 @@ namespace FoodCompanyManagement.Server.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [DataType(DataType.EmailAddress)]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
             [Required]
+            [StringLength(100, MinimumLength = 5, ErrorMessage = "UserName does not meet length requirements")]
             [Display(Name = "User Name")]
             public string UserName { get; set; }
 
