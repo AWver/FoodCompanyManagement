@@ -1,0 +1,20 @@
+﻿@page "/profileDatas/view/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+
+<h3>View</h3>
+
+
+<FormComponent profData="profData" Disabled="true" />
+
+
+@code {
+	[Parameter] public int id { get; set; }
+	ProfileData profData = new ProfileData();
+	protected async override Task OnParametersSetAsync()
+	{
+		profData = await
+		_client.GetFromJsonAsync<ProfileData>($"{Endpoints.ProfileDatasEndpoint}/{id}");
+	}
+}

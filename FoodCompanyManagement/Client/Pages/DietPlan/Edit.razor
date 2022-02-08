@@ -1,0 +1,27 @@
+﻿@page "/dietPlans/edit/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+@inject IJSRuntime js
+@attribute [Authorize]
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@using System.Security.Claims
+
+
+<FormComponentEdit ButtonText="Update" dietPlan="dietPlan" OnValidSubmit="@EditDietPlan" />
+
+@code
+{
+	[Parameter] public int id { get; set; }
+	DietPlan dietPlan = new DietPlan();
+
+	protected async override Task OnParametersSetAsync()
+	{
+		dietPlan = await _client.GetFromJsonAsync<DietPlan>($"{Endpoints.DietPlansEndpoint}/{id}");
+	}
+
+	async Task EditDietPlan()
+	{
+		await _client.PutAsJsonAsync<DietPlan>($"{Endpoints.DietPlansEndpoint}/{id}",dietPlan);
+		_navManager.NavigateTo("/dietPlans/");
+	}
+}

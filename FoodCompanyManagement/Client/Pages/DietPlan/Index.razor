@@ -40,7 +40,7 @@
 
 <a href="/dietPlans/create" class="btn btn-secondary">
 	<span class="oi oi-plus"></span>
-	Post Daily Meal
+	Create a diet plan
 </a>
 
 <br />
@@ -58,20 +58,45 @@ else
 				<th>User</th>
 				<th>Diet Week</th>
 				<th>Recommended foods</th>
+				<th>Diet Category</th>
 			</tr>
 		</thead>
 		<tbody>
 			@foreach (var dietPlans in DietPlans)
 			{
-				if (_isSelect == true)
+				if (_accountStatus == "Staff Account")
 				{
-					if (dietPlans.CreatedBy == _userNameSelect.userName)
+					if (_isSelect == true)
+					{
+						if (dietPlans.CreatedBy == _userNameSelect.userName)
+						{
+							<tr>
+								<td>@dietPlans.CreatedBy</td>
+								<td>@dietPlans.DietWeek</td>
+								<td>@dietPlans.DietReccFoods</td>
+								<td>@dietPlans.DietCategory</td>
+								<td>
+									<a href="/dietPlans/edit/@dietPlans.Id" class="btn btn-warning">
+										<span class="oi oi-pencil"></span>
+									</a>
+									<button class="btn btn-danger" @onclick="@(() => Delete(dietPlans.Id))">
+										<span class="oi oi-delete"></span>
+									</button>
+								</td>
+							</tr>
+						}
+					}
+					else
 					{
 						<tr>
 							<td>@dietPlans.CreatedBy</td>
 							<td>@dietPlans.DietWeek</td>
 							<td>@dietPlans.DietReccFoods</td>
+							<td>@dietPlans.DietCategory</td>
 							<td>
+								<a href="/dietPlans/edit/@dietPlans.Id" class="btn btn-warning">
+									<span class="oi oi-pencil"></span>
+								</a>
 								<button class="btn btn-danger" @onclick="@(()=>Delete(dietPlans.Id))">
 									<span class="oi oi-delete"></span>
 								</button>
@@ -79,20 +104,21 @@ else
 						</tr>
 					}
 				}
-				else
+				else if (dietPlans.CreatedBy == _currentUserName)
 				{
-			 <tr>
-				<td>@dietPlans.CreatedBy</td>
-				<td>@dietPlans.DietWeek</td>
-				<td>@dietPlans.DietReccFoods</td>
-				<td>
-					<button class="btn btn-danger" @onclick="@(()=>Delete(dietPlans.Id))">
-						<span class="oi oi-delete"></span>
-					</button>
-				</td>
-			 </tr>
+					<tr>
+						<td>@dietPlans.CreatedBy</td>
+						<td>@dietPlans.DietWeek</td>
+						<td>@dietPlans.DietReccFoods</td>
+						<td>@dietPlans.DietCategory</td>
+						<td>
+							<button class="btn btn-danger" @onclick="@(()=>Delete(dietPlans.Id))">
+								<span class="oi oi-delete"></span>
+							</button>
+						</td>
+					</tr>
 				}
-			 }
+			}
 		</tbody>
 	</table>
 }
@@ -120,7 +146,6 @@ else
 		AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoints.AccountsEndpoint}");
 		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
 		var user = authState.User;
-
 		if (user.Identity.IsAuthenticated)
 		{
 			_claims = user.Claims;
@@ -176,13 +201,13 @@ else
 	async Task Reset()
 	{
 		_isSelect = false;
-		_navManager.NavigateTo("/dailyMeals/");
+		_navManager.NavigateTo("/dietPlans/");
 	}
 
 	async Task showSpecUser()
 	{
 		_isSelect = true;
-		_navManager.NavigateTo("/dailyMeals/");
+		_navManager.NavigateTo("/dietPlans/");
 	}
 
 }
