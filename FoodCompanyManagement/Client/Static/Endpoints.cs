@@ -16,5 +16,7 @@ namespace FoodCompanyManagement.Client.Static
 		public static readonly string User_DietPlansEndpoint = $"{Prefix}/user_DietPlans";
 		public static readonly string DailyMealsEndpoints = $"{Prefix}/dailyMeals";
 		public static readonly string AccountsEndpoint = $"{Prefix}/accounts";
+		
 	}
 }
+

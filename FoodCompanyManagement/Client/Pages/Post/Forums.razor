@@ -1,0 +1,50 @@
+﻿@page "/posts/forum"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+
+    <h1>Post ur blog entry</h1>
+
+    <br/>
+
+    <EditForm Model="@post" OnValidSubmit="CreatePostData">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        
+        <div class="form-group">
+            <label>Poster: </label>
+            <div>
+                <InputText @bind-Value="@post.Poster" class="form-control" />
+                <ValidationMessage For="@(()=>post.Poster)" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Post Description: </label>
+            <div>
+                <InputText @bind-Value="@post.PostDesc" class="form-control" />
+                <ValidationMessage For="@(()=>post.PostDesc)" />
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success btn-block">
+            Upload post
+        </button>
+
+    </EditForm>
+
+
+
+
+
+@code {
+    Post post = new Post();
+
+    private async Task CreatePostData()
+    {
+        post.PostDate = DateTime.Today;
+        await _client.PostAsJsonAsync(Endpoints.PostsEndpoint, post);
+        _navManager.NavigateTo("/posts/");
+    }
+
+}
