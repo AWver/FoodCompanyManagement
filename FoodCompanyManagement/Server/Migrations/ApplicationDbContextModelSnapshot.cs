@@ -116,7 +116,7 @@ namespace FoodCompanyManagement.Server.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e828d736-4008-4886-a57f-5acb9c959fe5",
+                            ConcurrencyStamp = "3303cad5-aa27-448c-90a5-15115be5373d",
                             Email = "admin@localhost.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -125,10 +125,10 @@ namespace FoodCompanyManagement.Server.Migrations
                             MembershipStatus = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPPp3mDIkNnpudaqqnFVCIglKtMPyW8bs90UCR5WT3B8kCYENo7RGxCiWfdDm0TouQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEA+hKeEkTEHvRZRsupI9CaRBHtkLeESW088NHzc0RM9bubOr/vp4HCc/5eqd3spFTA==",
                             PhoneNumberConfirmed = false,
                             Profile_Id = 0,
-                            SecurityStamp = "aff62c7a-b236-4e40-a999-4b6b94021492",
+                            SecurityStamp = "9ded8b0c-f464-4e69-9e1f-622cec37057d",
                             TwoFactorEnabled = false,
                             UserDiet_Id = 0,
                             UserName = "Admin",
@@ -182,7 +182,7 @@ namespace FoodCompanyManagement.Server.Migrations
                             Id = 1,
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            MealDate = new DateTime(2022, 2, 1, 0, 0, 0, 0, DateTimeKind.Local),
+                            MealDate = new DateTime(2022, 2, 8, 0, 0, 0, 0, DateTimeKind.Local),
                             MealDescription = "Pan-seared Salmon",
                             MealPhoto = "URL placed here",
                             UserDiet_Id = 1
@@ -249,17 +249,17 @@ namespace FoodCompanyManagement.Server.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PostDesc")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("PostDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Poster")
+                    b.Property<string>("PostDesc")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TopicId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Topic_Id")
-                        .HasColumnType("int");
+                    b.Property<string>("Topic_Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -276,9 +276,9 @@ namespace FoodCompanyManagement.Server.Migrations
                             Id = 1,
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PostDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PostDesc = "Not entirely certain whether Whey Protein will have any detrimental side effects. I am taking it after every gym session, will there be any issues?",
-                            Poster = "Amir_Weaver",
-                            Topic_Id = 1
+                            Topic_Name = "Gym proteins"
                         });
                 });
 
@@ -481,8 +481,8 @@ namespace FoodCompanyManagement.Server.Migrations
                             Id = 1,
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DietEnd = new DateTime(2022, 2, 1, 0, 0, 0, 0, DateTimeKind.Local),
-                            DietStart = new DateTime(2022, 2, 1, 0, 0, 0, 0, DateTimeKind.Local),
+                            DietEnd = new DateTime(2022, 2, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            DietStart = new DateTime(2022, 2, 8, 0, 0, 0, 0, DateTimeKind.Local),
                             Diet_Id = 1
                         });
                 });
@@ -620,14 +620,14 @@ namespace FoodCompanyManagement.Server.Migrations
                         new
                         {
                             Id = "ad2bcf0c-20db-474f-8407-5a6b159518ba",
-                            ConcurrencyStamp = "47290ad8-6e30-4fa6-bcde-68f561bafe0f",
+                            ConcurrencyStamp = "29dc2508-1b01-4fc8-b338-058a30e82d03",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "bd2bcf0c-20db-474f-8407-5a6b159518bb",
-                            ConcurrencyStamp = "27ecc6ba-0d98-47d4-a676-8e5c9bb47227",
+                            ConcurrencyStamp = "b01fcf20-4c95-4615-ae0a-9b9fd4104651",
                             Name = "User",
                             NormalizedName = "USER"
                         });

@@ -1,0 +1,124 @@
+﻿@page "/topics/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@using System.Security.Claims
+@inject NavigationManager _navManager
+
+<h3>Here are the different forum topics!</h3>
+
+<br />
+
+
+<br />
+<br />
+
+<a href="/topics/create" class="btn btn-secondary">
+	<span class="oi oi-plus"></span>
+	Create a new topic
+</a>
+
+<br />
+<br />
+
+@if (Posts == null)
+{
+	<div class="alert alert-info">Loading forum posts...</div>
+}
+else
+{
+	<table class="table table-responsive">
+		<thead>
+			<tr>
+				<th>Topic Creator</th>
+				<th>Topic Name</th>
+				<th>Description of Topic</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var topics in Topics)
+			{
+				
+				{
+					<tr>
+						<td>@topics.CreatedBy</td>
+						<td>@topics.TopicName</td>
+						<td>@topics.TopicDesc</td>
+						<a href="/posts/@topics.TopicName" class="btn btn-warning">
+							<span class="oi oi-arrow-thick-bottom"></span>
+						</a>
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+}
+
+
+@code {
+	private List<Post> Posts;
+	private List<Topic> Topics;
+	private List<AppUser> AppUsers;
+	private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
+	UserNameSelect _userNameSelect = new UserNameSelect();
+	public class UserNameSelect
+	{
+		public string userName { get; set; } = "none";
+	}
+	private string _currentUserId;
+	private string _currentUserName;
+	private string _currentUserRole;
+	public string _accountStatus;
+	private bool _isSelect;
+
+	protected async override Task OnInitializedAsync()
+	{
+		Posts = await _client.GetFromJsonAsync<List<Post>>($"{Endpoints.PostsEndpoint}");
+		Topics = await _client.GetFromJsonAsync<List<Topic>>($"{Endpoints.TopicsEndpoint}");
+		AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoints.AccountsEndpoint}");
+		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+		var user = authState.User;
+
+		if (user.Identity.IsAuthenticated)
+		{
+			_claims = user.Claims;
+			//_currentUserName = user.Identity.Name;
+			if (_claims.Count() > 0)
+			{
+				foreach (var claim in _claims)
+				{
+					if (claim.Type == "name")
+					{
+						_currentUserName = claim.Value;
+						continue;
+					}
+					if (claim.Type == "sub")
+					{
+						_currentUserId = claim.Value;
+						continue;
+					}
+				}
+			}
+		}
+		if (_currentUserId != String.Empty)
+		{
+			_currentUserRole = await
+			_client.GetStringAsync($"{Endpoints.AccountsEndpoint}/{_currentUserId}");
+		}
+		@foreach (var appUser in AppUsers)
+		{
+			if (appUser.UserName == _currentUserName)
+			{
+				if (appUser.isStaff == true)
+				{
+					_accountStatus = "Staff Account";
+				}
+				else
+				{
+					_accountStatus = "Regular Account";
+				}
+			}
+		}
+	}
+}

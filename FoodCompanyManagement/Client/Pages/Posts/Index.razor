@@ -1,0 +1,196 @@
+﻿@page "/posts/{topicName}"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@using System.Security.Claims
+@inject NavigationManager _navManager
+
+<h3>Welcome to the forum for @topicName</h3>
+
+<br />
+
+@if (_accountStatus == "Staff Account")
+{
+	<EditForm Model="@_userNameSelect" OnValidSubmit="showSpecUser">
+		<DataAnnotationsValidator />
+		<ValidationSummary />
+
+		<div class="form-group">
+			<label>User Name: </label>
+			<div>
+				<InputText @bind-Value="@_userNameSelect.userName" class="form-control" />
+				<ValidationMessage For="@(() => _userNameSelect.userName)" />
+			</div>
+		</div>
+		<button type="submit" class="btn btn-success btn-block">
+			Set User to view
+		</button>
+
+	</EditForm>
+
+	<br />
+
+	<a class="btn btn-secondary" @onclick="@(() => Reset())">
+		<span class="oi oi-plus"></span>
+		Reset
+	</a>
+}
+
+<br />
+<br />
+
+<a href="/posts/forum/@topicName" class="btn btn-secondary">
+	<span class="oi oi-plus"></span>
+	Upload post
+</a>
+
+<br />
+<br />
+
+@if (Posts == null)
+{
+	<div class="alert alert-info">Loading forum posts...</div>
+}
+else
+{
+	<table class="table table-responsive">
+		<thead>
+			<tr>
+				<th>Poster</th>
+				<th>Post Description</th>
+				<th>Date Posted</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var posts in Posts)
+			{
+				if (posts.Topic_Name == topicName)
+				{
+					if (_isSelect == true)
+					{
+						if (posts.CreatedBy == _userNameSelect.userName)
+						{
+							<tr>
+								<td>@posts.CreatedBy</td>
+								<td>@posts.PostDesc</td>
+								<td>@posts.PostDate</td>
+
+								<td>
+									<button class="btn btn-danger" @onclick="@(()=>Delete(posts.Id))">
+										<span class="oi oi-delete"></span>
+									</button>
+								</td>
+							</tr>
+						}
+					}
+					else
+					{
+						<tr>
+							<td>@posts.CreatedBy</td>
+							<td>@posts.PostDesc</td>
+							<td>@posts.PostDate</td>
+
+						</tr>
+					}
+				}
+				
+			}
+		</tbody>
+	</table>
+}
+
+
+@code {
+	[Parameter] public string topicName { get; set; }
+
+	private List<Post> Posts;
+	private List<Topic> Topics;
+	private List<AppUser> AppUsers;
+	private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
+	UserNameSelect _userNameSelect = new UserNameSelect();
+	public class UserNameSelect
+	{
+		public string userName { get; set; } = "none";
+	}
+	private string _currentUserId;
+	private string _currentUserName;
+	private string _currentUserRole;
+	public string _accountStatus;
+	private bool _isSelect;
+
+	protected async override Task OnInitializedAsync()
+	{
+		Posts = await _client.GetFromJsonAsync<List<Post>>($"{Endpoints.PostsEndpoint}");
+		Topics = await _client.GetFromJsonAsync<List<Topic>>($"{Endpoints.TopicsEndpoint}");
+		AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoints.AccountsEndpoint}");
+		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+		var user = authState.User;
+
+		if (user.Identity.IsAuthenticated)
+		{
+			_claims = user.Claims;
+			//_currentUserName = user.Identity.Name;
+			if (_claims.Count() > 0)
+			{
+				foreach (var claim in _claims)
+				{
+					if (claim.Type == "name")
+					{
+						_currentUserName = claim.Value;
+						continue;
+					}
+					if (claim.Type == "sub")
+					{
+						_currentUserId = claim.Value;
+						continue;
+					}
+				}
+			}
+		}
+		if (_currentUserId != String.Empty)
+		{
+			_currentUserRole = await
+			_client.GetStringAsync($"{Endpoints.AccountsEndpoint}/{_currentUserId}");
+		}
+		@foreach (var appUser in AppUsers)
+		{
+			if (appUser.UserName == _currentUserName)
+			{
+				if (appUser.isStaff == true)
+				{
+					_accountStatus = "Staff Account";
+				}
+				else
+				{
+					_accountStatus = "Regular Account";
+				}
+			}
+		}
+	}
+
+
+	async Task Delete(int postId)
+	{
+		var post = Posts.First(q => q.Id == postId);
+		var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete your blog post?");
+		if (confirm)
+		{
+			await _client.DeleteAsync($"{Endpoints.PostsEndpoint}/{postId}");
+			await OnInitializedAsync();
+		}
+	}
+
+	async Task Reset()
+	{
+		_isSelect = false;
+		_navManager.NavigateTo("/posts/");
+	}
+
+	async Task showSpecUser()
+	{
+		_isSelect = true;
+		_navManager.NavigateTo("/posts/");
+	}
+}
+
